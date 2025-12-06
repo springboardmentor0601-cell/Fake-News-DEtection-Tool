@@ -1,0 +1,936 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - TruthGuard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-gradient: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+        --warning-gradient: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+        --danger-gradient: linear-gradient(135deg, #e74a3b 0%, #be2617 100%);
+        --info-gradient: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+    }
+
+    .gradient-welcome {
+        background: var(--primary-gradient);
+    }
+
+    .gradient-primary {
+        background: var(--primary-gradient);
+    }
+
+    .gradient-success {
+        background: var(--success-gradient);
+    }
+
+    .gradient-warning {
+        background: var(--warning-gradient);
+    }
+
+    .gradient-danger {
+        background: var(--danger-gradient);
+    }
+
+    .gradient-info {
+        background: var(--info-gradient);
+    }
+
+    .gradient-dark {
+        background: linear-gradient(135deg, #5a5c69 0%, #373840 100%);
+    }
+
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+    }
+
+    .btn-icon {
+        text-align: left;
+        padding: 15px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-icon:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-icon i {
+        font-size: 1.2em;
+        vertical-align: middle;
+    }
+
+    .analysis-row:hover {
+        background-color: rgba(78, 115, 223, 0.05);
+        cursor: pointer;
+        transform: translateX(5px);
+        transition: all 0.3s ease;
+    }
+
+    .analysis-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.05);
+    }
+
+    .insight-card {
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+
+    .insight-card:hover {
+        transform: translateY(-5px);
+        border-color: #4e73df;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .insight-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.05);
+    }
+
+    .empty-state {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .badge-pill {
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-weight: 600;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0,0,0,0.02);
+    }
+
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        border: none;
+    }
+
+    .progress {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        border-radius: 10px;
+    }
+
+    /* Chart Container Styles */
+    .chart-wrapper {
+        position: relative;
+        height: 250px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .chart-wrapper-large {
+        height: 300px;
+    }
+
+    /* Ensure charts are visible */
+    .chart-canvas {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Chart card specific styles */
+    .chart-card {
+        min-height: 400px;
+    }
+
+    .chart-card .card-body {
+        padding-bottom: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0 animate__animated animate__fadeIn">
+                <div class="card-body gradient-welcome p-5 rounded">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="text-white display-4 mb-2">Welcome back, {{ user.name }}! 👋</h1>
+                            <p class="text-white-75 mb-0 lead">Here's your personal misinformation analysis dashboard</p>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <div class="avatar-circle text-primary">
+                                <i class="fas fa-user-shield fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-primary shadow-lg border-0 animate__animated animate__fadeInUp">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Total Analyses</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.total }}</div>
+                            <div class="mt-2">
+                                <span class="text-white-75 small">All time</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-bar fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-white" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-success shadow-lg border-0 animate__animated animate__fadeInUp animate__delay-1s">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Reliable Content</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.reliable }}</div>
+                            <div class="mt-2">
+                                <span class="text-white-75 small">{{ stats.reliable_percent }}% of total</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-white" style="width: {{ stats.reliable_percent }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-warning shadow-lg border-0 animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Suspicious</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.suspicious }}</div>
+                            <div class="mt-2">
+                                {% if stats.total > 0 %}
+                                <span class="text-white-75 small">{{ ((stats.suspicious / stats.total) * 100)|round(1) }}% of total</span>
+                                {% else %}
+                                <span class="text-white-75 small">0% of total</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-white" style="width:
+                            {% if stats.total > 0 %}{{ ((stats.suspicious / stats.total) * 100)|round(1) }}%
+                            {% else %}0%{% endif %}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-danger shadow-lg border-0 animate__animated animate__fadeInUp animate__delay-3s">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Fake Content</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.fake }}</div>
+                            <div class="mt-2">
+                                <span class="text-white-75 small">{{ stats.fake_percent }}% of total</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-times-circle fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-white" style="width: {{ stats.fake_percent }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+        <!-- Analysis Distribution Chart -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow-lg border-0 chart-card animate__animated animate__fadeInLeft">
+                <div class="card-header bg-gradient-primary py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-chart-pie mr-2"></i>Analysis Distribution
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-wrapper">
+                        <canvas id="analysisChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <div class="row">
+                            <div class="col-3">
+                                <span class="d-block"><i class="fas fa-circle text-success"></i> Reliable</span>
+                                <span class="font-weight-bold">{{ stats.reliable }}</span>
+                            </div>
+                            <div class="col-3">
+                                <span class="d-block"><i class="fas fa-circle text-warning"></i> Suspicious</span>
+                                <span class="font-weight-bold">{{ stats.suspicious }}</span>
+                            </div>
+                            <div class="col-3">
+                                <span class="d-block"><i class="fas fa-circle text-danger"></i> Fake</span>
+                                <span class="font-weight-bold">{{ stats.fake }}</span>
+                            </div>
+                            <div class="col-3">
+                                <span class="d-block"><i class="fas fa-circle text-secondary"></i> Other</span>
+                                <span class="font-weight-bold">{{ stats.total - stats.reliable - stats.suspicious - stats.fake }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Activity Chart -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow-lg border-0 chart-card animate__animated animate__fadeInRight">
+                <div class="card-header bg-gradient-info py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-chart-line mr-2"></i>Monthly Activity
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-wrapper">
+                        <canvas id="activityChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Track your analysis patterns over time
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Recent Analyses -->
+    <div class="row">
+        <!-- Quick Actions -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-lg border-0 animate__animated animate__fadeInUp">
+                <div class="card-header bg-gradient-dark py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-bolt mr-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-grid gap-3">
+                        <a href="/analyze" class="btn btn-primary btn-lg btn-block btn-icon">
+                            <i class="fas fa-bolt mr-2"></i>New Analysis
+                            <small class="d-block text-white-75 mt-1">Ultra-fast content checking</small>
+                        </a>
+
+                        <a href="/history" class="btn btn-info btn-lg btn-block btn-icon">
+                            <i class="fas fa-history mr-2"></i>Analysis History
+                            <small class="d-block text-white-75 mt-1">View all past analyses</small>
+                        </a>
+
+                        <a href="/profile" class="btn btn-success btn-lg btn-block btn-icon">
+                            <i class="fas fa-user-cog mr-2"></i>Profile Settings
+                            <small class="d-block text-white-75 mt-1">Manage your account</small>
+                        </a>
+
+                        <a href="/test-chat-fixed" class="btn btn-warning btn-lg btn-block btn-icon">
+                            <i class="fas fa-robot mr-2"></i>AI Assistant
+                            <small class="d-block text-white-75 mt-1">Get help from our chatbot</small>
+                        </a>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <h6 class="font-weight-bold mb-3">Quick Stats</h6>
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="border rounded p-2 bg-light">
+                                    <div class="text-primary font-weight-bold">
+                                        {% if avg_confidence %}{{ avg_confidence|round(1) }}%{% else %}0%{% endif %}
+                                    </div>
+                                    <small class="text-muted">Avg Confidence</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="border rounded p-2 bg-light">
+                                    <div class="text-success font-weight-bold">{{ recent_count|default(0) }}</div>
+                                    <small class="text-muted">Last 7 Days</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="border rounded p-2 bg-light">
+                                    <div class="text-info font-weight-bold">
+                                        {% if max_confidence %}{{ max_confidence|round(1) }}%{% else %}0%{% endif %}
+                                    </div>
+                                    <small class="text-muted">Best Score</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Analyses -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-lg border-0 animate__animated animate__fadeInUp">
+                <div class="card-header bg-gradient-primary py-3 border-0 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-clock mr-2"></i>Recent Analyses
+                    </h6>
+                    <a href="/history" class="btn btn-sm btn-light">
+                        View All <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    {% if analyses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="border-top-0">Analysis</th>
+                                    <th class="border-top-0">Result</th>
+                                    <th class="border-top-0">Confidence</th>
+                                    <th class="border-top-0">Time</th>
+                                    <th class="border-top-0">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for analysis in analyses %}
+                                <tr class="analysis-row" data-id="{{ analysis.id }}">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="analysis-icon mr-3">
+                                                {% if analysis.classification == 'RELIABLE' %}
+                                                <i class="fas fa-check-circle text-success fa-lg"></i>
+                                                {% elif analysis.classification == 'SUSPICIOUS' %}
+                                                <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
+                                                {% elif analysis.classification == 'FAKE' %}
+                                                <i class="fas fa-times-circle text-danger fa-lg"></i>
+                                                {% else %}
+                                                <i class="fas fa-question-circle text-secondary fa-lg"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div>
+                                                <div class="font-weight-bold">{{ analysis.title or 'Untitled Analysis' }}</div>
+                                                <small class="text-muted">
+                                                    {{ analysis.content[:60] }}...
+                                                    {% if analysis.source_url %}
+                                                    <br><i class="fas fa-link text-primary mr-1"></i>
+                                                    <span class="text-primary">{{ analysis.source_url|truncate(30) }}</span>
+                                                    {% endif %}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if analysis.classification == 'RELIABLE' %}
+                                        <span class="badge badge-success badge-pill px-3 py-2">
+                                            <i class="fas fa-check mr-1"></i>Reliable
+                                        </span>
+                                        {% elif analysis.classification == 'SUSPICIOUS' %}
+                                        <span class="badge badge-warning badge-pill px-3 py-2">
+                                            <i class="fas fa-exclamation mr-1"></i>Suspicious
+                                        </span>
+                                        {% elif analysis.classification == 'FAKE' %}
+                                        <span class="badge badge-danger badge-pill px-3 py-2">
+                                            <i class="fas fa-times mr-1"></i>Fake
+                                        </span>
+                                        {% else %}
+                                        <span class="badge badge-secondary badge-pill px-3 py-2">
+                                            <i class="fas fa-question mr-1"></i>{{ analysis.classification }}
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if analysis.confidence_score %}
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress flex-grow-1 mr-2" style="height: 8px;">
+                                                <div class="progress-bar
+                                                    {% if analysis.confidence_score >= 0.7 %}bg-success
+                                                    {% elif analysis.confidence_score >= 0.4 %}bg-warning
+                                                    {% else %}bg-danger{% endif %}"
+                                                    style="width: {{ analysis.confidence_score * 100 }}%">
+                                                </div>
+                                            </div>
+                                            <span class="font-weight-bold">{{ (analysis.confidence_score * 100)|round(1) }}%</span>
+                                        </div>
+                                        {% else %}
+                                        <span class="text-muted">N/A</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted" title="{{ analysis.created_at }}">
+                                            {{ analysis.created_at.strftime('%b %d, %H:%M') }}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="/analysis/{{ analysis.id }}" class="btn btn-outline-primary" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-outline-success copy-analysis" data-id="{{ analysis.id }}" title="Copy Link">
+                                                <i class="fas fa-link"></i>
+                                            </button>
+                                            <button class="btn btn-outline-info reanalyze-btn" data-id="{{ analysis.id }}" title="Re-analyze">
+                                                <i class="fas fa-redo"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <div class="empty-state">
+                            <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                            <h4 class="text-muted">No Analyses Yet</h4>
+                            <p class="text-muted mb-4">Start by analyzing your first piece of content!</p>
+                            <a href="/analyze" class="btn btn-primary btn-lg">
+                                <i class="fas fa-plus mr-2"></i>Start Your First Analysis
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips & Insights -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-lg border-0 animate__animated animate__fadeIn">
+                <div class="card-header bg-gradient-info py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-lightbulb mr-2"></i>Tips & Insights
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="card insight-card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="insight-icon mb-3">
+                                        <i class="fas fa-clipboard-check fa-3x text-success"></i>
+                                    </div>
+                                    <h5 class="font-weight-bold">Verify Sources</h5>
+                                    <p class="text-muted small">Always check the credibility of sources before sharing content.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card insight-card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="insight-icon mb-3">
+                                        <i class="fas fa-chart-line fa-3x text-primary"></i>
+                                    </div>
+                                    <h5 class="font-weight-bold">Track Patterns</h5>
+                                    <p class="text-muted small">Monitor your analysis history to identify misinformation patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card insight-card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="insight-icon mb-3">
+                                        <i class="fas fa-shield-alt fa-3x text-warning"></i>
+                                    </div>
+                                    <h5 class="font-weight-bold">Stay Protected</h5>
+                                    <p class="text-muted small">Use our AI assistant for real-time fact-checking assistance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card insight-card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="insight-icon mb-3">
+                                        <i class="fas fa-bolt fa-3x text-danger"></i>
+                                    </div>
+                                    <h5 class="font-weight-bold">Fast Analysis</h5>
+                                    <p class="text-muted small">Get results in under 50ms with our ultra-fast detection system.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+// Initialize charts after page load
+window.addEventListener('load', function() {
+    console.log('Page loaded, initializing charts...');
+
+    // Initialize tooltips
+    $(function () {
+        $('[title]').tooltip();
+    });
+
+    // =========== ANALYSIS CHART (Doughnut) ===========
+    const analysisCanvas = document.getElementById('analysisChart');
+    if (analysisCanvas) {
+        console.log('Creating analysis chart...');
+
+        // Calculate data
+        const reliableCount = {{ stats.reliable }};
+        const suspiciousCount = {{ stats.suspicious }};
+        const fakeCount = {{ stats.fake }};
+        const otherCount = Math.max(0, {{ stats.total }} - reliableCount - suspiciousCount - fakeCount);
+
+        const analysisCtx = analysisCanvas.getContext('2d');
+
+        // Set explicit dimensions
+        analysisCanvas.width = analysisCanvas.parentElement.clientWidth;
+        analysisCanvas.height = 250;
+
+        // Create chart with better visibility
+        new Chart(analysisCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Reliable', 'Suspicious', 'Fake', 'Other'],
+                datasets: [{
+                    data: [reliableCount, suspiciousCount, fakeCount, otherCount],
+                    backgroundColor: [
+                        'rgba(40, 167, 69, 0.9)',
+                        'rgba(255, 193, 7, 0.9)',
+                        'rgba(220, 53, 69, 0.9)',
+                        'rgba(108, 117, 125, 0.9)'
+                    ],
+                    borderColor: [
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(220, 53, 69, 1)',
+                        'rgba(108, 117, 125, 1)'
+                    ],
+                    borderWidth: 2,
+                    hoverBorderWidth: 3,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#667eea',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true,
+                    duration: 1500,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+        console.log('Analysis chart created successfully');
+    } else {
+        console.error('Analysis chart canvas not found');
+    }
+
+    // =========== ACTIVITY CHART (Line) ===========
+    const activityCanvas = document.getElementById('activityChart');
+    if (activityCanvas) {
+        console.log('Creating activity chart...');
+
+        const activityCtx = activityCanvas.getContext('2d');
+
+        // Set explicit dimensions
+        activityCanvas.width = activityCanvas.parentElement.clientWidth;
+        activityCanvas.height = 250;
+
+        // Sample data for better visualization
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const activityData = [12, 19, 15, 25, 22, 30, 28, 35, 32, 40, 38, 45];
+
+        // Create gradient for line fill
+        const gradient = activityCtx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(78, 115, 223, 0.2)');
+        gradient.addColorStop(1, 'rgba(78, 115, 223, 0.05)');
+
+        // Create chart
+        new Chart(activityCtx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Analyses',
+                    data: activityData,
+                    backgroundColor: gradient,
+                    borderColor: 'rgba(78, 115, 223, 1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 10,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#667eea',
+                        borderWidth: 1,
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12,
+                                family: "'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+                            },
+                            color: '#6c757d'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12,
+                                family: "'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+                            },
+                            color: '#6c757d'
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'nearest'
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                },
+                elements: {
+                    line: {
+                        tension: 0.4
+                    }
+                }
+            }
+        });
+        console.log('Activity chart created successfully');
+    } else {
+        console.error('Activity chart canvas not found');
+    }
+
+    // =========== EVENT HANDLERS ===========
+
+    // Copy analysis link
+    $('.copy-analysis').click(function() {
+        const analysisId = $(this).data('id');
+        const url = window.location.origin + '/analysis/' + analysisId;
+
+        navigator.clipboard.writeText(url).then(() => {
+            showNotification('Link copied to clipboard!', 'success');
+        });
+    });
+
+    // Re-analyze button
+    $('.reanalyze-btn').click(function() {
+        const analysisId = $(this).data('id');
+        showNotification('Redirecting to analysis...', 'info');
+        setTimeout(() => {
+            window.location.href = '/analyze?reanalyze=' + analysisId;
+        }, 1000);
+    });
+
+    // Row click to view details
+    $('.analysis-row').click(function(e) {
+        if (!$(e.target).closest('.btn').length) {
+            const analysisId = $(this).data('id');
+            window.location.href = '/analysis/' + analysisId;
+        }
+    });
+
+    console.log('Dashboard initialization complete');
+});
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);';
+    notification.innerHTML = `
+        <strong>${type.charAt(0).toUpperCase() + type.slice(1)}:</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Debug function to check charts
+function debugCharts() {
+    console.log('=== CHART DEBUG INFO ===');
+
+    // Check if Chart.js is loaded
+    console.log('Chart.js loaded:', typeof Chart !== 'undefined');
+
+    // Check canvas elements
+    const analysisCanvas = document.getElementById('analysisChart');
+    const activityCanvas = document.getElementById('activityChart');
+
+    console.log('Analysis canvas found:', !!analysisCanvas);
+    console.log('Activity canvas found:', !!activityCanvas);
+
+    if (analysisCanvas) {
+        console.log('Analysis canvas dimensions:', {
+            width: analysisCanvas.width,
+            height: analysisCanvas.height,
+            clientWidth: analysisCanvas.clientWidth,
+            clientHeight: analysisCanvas.clientHeight,
+            parentWidth: analysisCanvas.parentElement.clientWidth
+        });
+    }
+
+    if (activityCanvas) {
+        console.log('Activity canvas dimensions:', {
+            width: activityCanvas.width,
+            height: activityCanvas.height,
+            clientWidth: activityCanvas.clientWidth,
+            clientHeight: activityCanvas.clientHeight
+        });
+    }
+
+    // Check if charts are created
+    const analysisChart = Chart.getChart('analysisChart');
+    const activityChart = Chart.getChart('activityChart');
+
+    console.log('Analysis chart instance:', !!analysisChart);
+    console.log('Activity chart instance:', !!activityChart);
+
+    // Force redraw if charts exist
+    if (analysisChart) analysisChart.resize();
+    if (activityChart) activityChart.resize();
+}
+
+// Run debug on page load
+setTimeout(debugCharts, 1000);
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    const analysisChart = Chart.getChart('analysisChart');
+    const activityChart = Chart.getChart('activityChart');
+
+    if (analysisChart) {
+        analysisChart.resize();
+        analysisChart.update('none');
+    }
+
+    if (activityChart) {
+        activityChart.resize();
+        activityChart.update('none');
+    }
+});
+</script>
+{% endblock %}

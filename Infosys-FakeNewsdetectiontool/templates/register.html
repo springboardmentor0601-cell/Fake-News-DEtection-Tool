@@ -1,0 +1,756 @@
+{% extends "base.html" %}
+
+{% block title %}Register - TruthGuard{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center animate-page-in">
+    <div class="col-md-8 col-lg-6">
+        <!-- Animated background shapes -->
+        <div class="register-shapes">
+            <div class="shape shape-1" style="position: absolute; top: 10%; left: 5%; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); animation: float 15s infinite ease-in-out;"></div>
+            <div class="shape shape-2" style="position: absolute; bottom: 15%; right: 10%; width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, rgba(19, 194, 118, 0.1) 0%, rgba(17, 153, 142, 0.1) 100%); animation: float 18s infinite ease-in-out reverse;"></div>
+            <div class="shape shape-3" style="position: absolute; top: 40%; right: 20%; width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%); animation: float 12s infinite ease-in-out;"></div>
+        </div>
+
+        <div class="card border-0 shadow-lg register-card animate-card">
+            <div class="card-body p-5">
+                <!-- Header with animated icon -->
+                <div class="text-center mb-4">
+                    <div class="register-icon animate-icon mb-3">
+                        <div class="icon-circle" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; animation: pulse 2s infinite;">
+                            <i class="fas fa-user-plus fa-2x text-white"></i>
+                        </div>
+                    </div>
+                    <h2 class="h3 gradient-text mb-2">Join TruthGuard</h2>
+                    <p class="text-muted">Fight misinformation with our AI-powered platform</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('register') }}" id="registerForm" class="needs-validation" novalidate>
+                    <!-- Name Field -->
+                    <div class="mb-4 form-group animate-input" style="animation-delay: 0.1s;">
+                        <label for="name" class="form-label fw-bold">
+                            <i class="fas fa-user me-2 text-primary"></i>Full Name
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-user text-primary"></i>
+                            </span>
+                            <input type="text" class="form-control" id="name" name="name" required
+                                   placeholder="Enter your full name">
+                            <div class="invalid-feedback">
+                                Please enter your name.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="mb-4 form-group animate-input" style="animation-delay: 0.2s;">
+                        <label for="email" class="form-label fw-bold">
+                            <i class="fas fa-envelope me-2 text-danger"></i>Email Address
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-envelope text-danger"></i>
+                            </span>
+                            <input type="email" class="form-control" id="email" name="email" required
+                                   placeholder="Enter your email">
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                        <div class="form-text text-muted">
+                            <i class="fas fa-shield-alt me-1"></i> We'll never share your email with anyone else.
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="mb-4 form-group animate-input" style="animation-delay: 0.3s;">
+                        <label for="password" class="form-label fw-bold">
+                            <i class="fas fa-lock me-2 text-success"></i>Password
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-lock text-success"></i>
+                            </span>
+                            <input type="password" class="form-control" id="password" name="password" required
+                                   placeholder="Create a password" minlength="6">
+                            <button class="btn btn-outline-secondary password-toggle" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <div class="invalid-feedback">
+                                Password must be at least 6 characters long.
+                            </div>
+                        </div>
+
+                        <!-- Password Strength Meter -->
+                        <div class="password-strength mt-2">
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar" id="passwordStrength" role="progressbar"
+                                     style="width: 0%; background: linear-gradient(90deg, #dc3545, #ffc107, #28a745);"></div>
+                            </div>
+                            <small class="text-muted" id="passwordStrengthText">Password strength: Very weak</small>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-4 form-group animate-input" style="animation-delay: 0.4s;">
+                        <label for="confirm_password" class="form-label fw-bold">
+                            <i class="fas fa-lock me-2 text-info"></i>Confirm Password
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-lock text-info"></i>
+                            </span>
+                            <input type="password" class="form-control" id="confirm_password"
+                                   name="confirm_password" required placeholder="Confirm your password">
+                            <button class="btn btn-outline-secondary password-toggle" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <div class="invalid-feedback">
+                                Passwords do not match.
+                            </div>
+                        </div>
+                        <div class="password-match mt-2">
+                            <i class="fas fa-check-circle text-success me-1 d-none" id="passwordMatchIcon"></i>
+                            <small class="text-muted" id="passwordMatchText">Passwords must match</small>
+                        </div>
+                    </div>
+
+                    <!-- Terms Agreement -->
+                    <div class="mb-4 form-check animate-input" style="animation-delay: 0.5s;">
+                        <div class="terms-card p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #667eea;">
+                            <input class="form-check-input" type="checkbox" id="terms" required>
+                            <label class="form-check-label ms-2" for="terms">
+                                I agree to the
+                                <a href="#" class="text-decoration-none fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                    <i class="fas fa-file-contract me-1"></i>Terms of Service
+                                </a>
+                                and
+                                <a href="#" class="text-decoration-none fw-bold text-info" data-bs-toggle="modal" data-bs-target="#privacyModal">
+                                    <i class="fas fa-shield-alt me-1"></i>Privacy Policy
+                                </a>
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree to the terms and conditions.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mb-4 animate-input" style="animation-delay: 0.6s;">
+                        <button type="submit" class="btn btn-lg w-100 py-3 shadow-lg register-button">
+                            <i class="fas fa-user-plus me-2"></i> Create Account
+                        </button>
+                    </div>
+
+                    <!-- Social Login Options -->
+                    <div class="text-center mb-4 animate-input" style="animation-delay: 0.7s;">
+                        <div class="divider mb-4">
+                            <span class="divider-text text-muted">Or sign up with</span>
+                        </div>
+                        <div class="social-buttons">
+                            <button type="button" class="btn btn-outline-primary btn-sm social-btn me-2">
+                                <i class="fab fa-google me-2"></i> Google
+                            </button>
+                            <button type="button" class="btn btn-outline-dark btn-sm social-btn me-2">
+                                <i class="fab fa-github me-2"></i> GitHub
+                            </button>
+                            <button type="button" class="btn btn-outline-primary btn-sm social-btn">
+                                <i class="fab fa-twitter me-2"></i> Twitter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="text-center animate-input" style="animation-delay: 0.8s;">
+                        <p class="mb-0 text-muted">
+                            Already have an account?
+                            <a href="{{ url_for('login') }}" class="text-decoration-none fw-bold gradient-text">
+                                <i class="fas fa-sign-in-alt me-1"></i> Sign in here
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Features Preview -->
+        <div class="row mt-5">
+            <div class="col-md-4 mb-3 animate-feature" style="animation-delay: 0.9s;">
+                <div class="text-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+                    <i class="fas fa-robot fa-2x mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                    <h6 class="fw-bold">AI Analysis</h6>
+                    <p class="small text-muted mb-0">Advanced fake news detection</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 animate-feature" style="animation-delay: 1s;">
+                <div class="text-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(19, 194, 118, 0.1) 0%, rgba(17, 153, 142, 0.1) 100%);">
+                    <i class="fas fa-chart-bar fa-2x mb-2" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                    <h6 class="fw-bold">Detailed Reports</h6>
+                    <p class="small text-muted mb-0">Comprehensive analysis results</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 animate-feature" style="animation-delay: 1.1s;">
+                <div class="text-center p-3 rounded-3" style="background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);">
+                    <i class="fas fa-robot fa-2x mb-2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                    <h6 class="fw-bold">TruthBot Assistant</h6>
+                    <p class="small text-muted mb-0">24/7 AI chat support</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h5 class="modal-title"><i class="fas fa-file-contract me-2"></i>Terms of Service</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="accordion" id="termsAccordion">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#terms1" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-check-circle text-success me-2"></i> Acceptance of Terms
+                            </button>
+                        </h2>
+                        <div id="terms1" class="accordion-collapse collapse show" data-bs-parent="#termsAccordion">
+                            <div class="accordion-body">
+                                By accessing and using TruthGuard, you accept and agree to be bound by the terms and provision of this agreement.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#terms2" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-robot text-primary me-2"></i> Description of Service
+                            </button>
+                        </h2>
+                        <div id="terms2" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+                            <div class="accordion-body">
+                                TruthGuard provides AI-powered misinformation detection and analysis services. The service is provided "as is" and "as available".
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#terms3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-user-shield text-info me-2"></i> User Responsibilities
+                            </button>
+                        </h2>
+                        <div id="terms3" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+                            <div class="accordion-body">
+                                Users are responsible for maintaining the confidentiality of their account and password. All activities that occur under your account are your responsibility.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#terms4" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-shield-alt text-danger me-2"></i> Privacy Policy
+                            </button>
+                        </h2>
+                        <div id="terms4" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+                            <div class="accordion-body">
+                                Registration data and certain other information about you is subject to our Privacy Policy.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#terms5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i> Disclaimer of Warranties
+                            </button>
+                        </h2>
+                        <div id="terms5" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+                            <div class="accordion-body">
+                                The service is provided without warranties of any kind, whether express or implied.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Accept</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%);">
+                <h5 class="modal-title"><i class="fas fa-shield-alt me-2"></i>Privacy Policy</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-database fa-2x mb-3" style="color: #667eea;"></i>
+                                <h6 class="fw-bold">Information We Collect</h6>
+                                <p class="small text-muted mb-0">We collect information you provide directly to us, such as when you create an account or use our services.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-cogs fa-2x mb-3" style="color: #13c276;"></i>
+                                <h6 class="fw-bold">How We Use Information</h6>
+                                <p class="small text-muted mb-0">We use the information we collect to provide, maintain, and improve our services.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-share-alt fa-2x mb-3" style="color: #f093fb;"></i>
+                                <h6 class="fw-bold">Information Sharing</h6>
+                                <p class="small text-muted mb-0">We do not share your personal information with third parties except as described in this policy.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                            <div class="card-body text-center p-4">
+                                <i class="fas fa-lock fa-2x mb-3" style="color: #ffc107;"></i>
+                                <h6 class="fw-bold">Security</h6>
+                                <p class="small text-muted mb-0">We take reasonable measures to help protect your personal information from loss, theft, misuse, and unauthorized access.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">I Accept</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Animations */
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes inputFocus {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.02); }
+}
+
+/* Animation Classes */
+.animate-page-in {
+    animation: pageIn 0.8s ease-out forwards;
+}
+
+.animate-card {
+    animation: cardIn 1s ease-out forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+}
+
+.animate-icon {
+    animation: pulse 2s infinite;
+}
+
+.animate-input {
+    opacity: 0;
+    animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-feature {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Register Card Styles */
+.register-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #f5576c 33%, #4facfe 66%, #13c276 100%);
+}
+
+/* Input Styles */
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    animation: inputFocus 0.3s ease-out;
+}
+
+.input-group-text {
+    border-color: #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.input-group:focus-within .input-group-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+}
+
+/* Password Strength */
+.password-strength .progress {
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.password-strength .progress-bar {
+    transition: width 0.5s ease;
+    border-radius: 3px;
+}
+
+/* Register Button */
+.register-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3) !important;
+}
+
+.register-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.7s;
+}
+
+.register-button:hover:before {
+    left: 100%;
+}
+
+/* Social Buttons */
+.social-btn {
+    border-radius: 50px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.divider-text {
+    padding: 0 1rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Terms Card */
+.terms-card {
+    transition: all 0.3s ease;
+}
+
+.terms-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Validation Styles */
+.form-control.is-valid,
+.was-validated .form-control:valid {
+    border-color: #13c276;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2313c276' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    border-color: #f5576c;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23f5576c'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23f5576c' stroke='none'/%3e%3c/svg%3e");
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-card {
+        padding: 2rem 1rem !important;
+    }
+
+    .social-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .social-btn {
+        width: 100%;
+        margin: 0 0 0.5rem 0 !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Password toggle functionality
+    $('.password-toggle').click(function() {
+        const input = $(this).closest('.input-group').find('input');
+        const icon = $(this).find('i');
+
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            input.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+
+    // Password strength checker
+    $('#password').on('input', function() {
+        const password = $(this).val();
+        let strength = 0;
+        let strengthText = 'Very weak';
+        let strengthWidth = 0;
+
+        if (password.length >= 6) strength++;
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+        // Set strength level
+        switch(strength) {
+            case 1:
+                strengthWidth = 20;
+                strengthText = 'Very weak';
+                break;
+            case 2:
+                strengthWidth = 40;
+                strengthText = 'Weak';
+                break;
+            case 3:
+                strengthWidth = 60;
+                strengthText = 'Fair';
+                break;
+            case 4:
+                strengthWidth = 80;
+                strengthText = 'Good';
+                break;
+            case 5:
+                strengthWidth = 100;
+                strengthText = 'Strong';
+                break;
+        }
+
+        // Update strength meter
+        $('#passwordStrength').css('width', strengthWidth + '%');
+        $('#passwordStrengthText').text('Password strength: ' + strengthText);
+    });
+
+    // Password confirmation checker
+    $('#confirm_password').on('input', function() {
+        const password = $('#password').val();
+        const confirmPassword = $(this).val();
+        const matchIcon = $('#passwordMatchIcon');
+        const matchText = $('#passwordMatchText');
+
+        if (confirmPassword === '') {
+            matchIcon.addClass('d-none');
+            matchText.text('Passwords must match').removeClass('text-success text-danger').addClass('text-muted');
+        } else if (password === confirmPassword) {
+            matchIcon.removeClass('d-none').removeClass('fa-times-circle text-danger').addClass('fa-check-circle text-success');
+            matchText.text('Passwords match').removeClass('text-danger text-muted').addClass('text-success');
+        } else {
+            matchIcon.removeClass('d-none').removeClass('fa-check-circle text-success').addClass('fa-times-circle text-danger');
+            matchText.text('Passwords do not match').removeClass('text-success text-muted').addClass('text-danger');
+        }
+    });
+
+    // Form validation
+    $('#registerForm').on('submit', function(e) {
+        e.preventDefault();
+
+        // Check if form is valid
+        if (this.checkValidity() === false) {
+            e.stopPropagation();
+        } else {
+            // Additional custom validation
+            const password = $('#password').val();
+            const confirmPassword = $('#confirm_password').val();
+
+            if (password.length < 6) {
+                $('#password').addClass('is-invalid');
+                showAlert('Password must be at least 6 characters long', 'danger');
+                e.preventDefault();
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                $('#confirm_password').addClass('is-invalid');
+                showAlert('Passwords do not match', 'danger');
+                e.preventDefault();
+                return false;
+            }
+
+            // Check terms agreement
+            if (!$('#terms').is(':checked')) {
+                showAlert('You must agree to the terms and conditions', 'danger');
+                e.preventDefault();
+                return false;
+            }
+
+            // Form is valid, submit it
+            this.submit();
+        }
+
+        $(this).addClass('was-validated');
+    });
+
+    // Real-time validation
+    $('input').on('input', function() {
+        if ($(this).val() !== '') {
+            $(this).removeClass('is-invalid');
+            $(this).addClass('is-valid');
+        } else {
+            $(this).removeClass('is-valid');
+        }
+    });
+
+    // Show alert function
+    function showAlert(message, type) {
+        const alertHtml = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                <i class="fas fa-${type === 'danger' ? 'exclamation-triangle' : 'check-circle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+
+        // Remove existing alerts
+        $('.alert').remove();
+
+        // Add new alert
+        $('.register-card .card-body').prepend(alertHtml);
+
+        // Auto dismiss after 5 seconds
+        setTimeout(() => {
+            $('.alert').alert('close');
+        }, 5000);
+    }
+
+    // Animate terms modal when shown
+    $('#termsModal, #privacyModal').on('shown.bs.modal', function() {
+        $(this).find('.modal-content').css('transform', 'scale(0.9)');
+        setTimeout(() => {
+            $(this).find('.modal-content').css('transition', 'transform 0.3s ease-out');
+            $(this).find('.modal-content').css('transform', 'scale(1)');
+        }, 10);
+    });
+
+    // Social button animations
+    $('.social-btn').hover(
+        function() {
+            $(this).css('transform', 'translateY(-3px)');
+        },
+        function() {
+            $(this).css('transform', 'translateY(0)');
+        }
+    );
+});
+</script>
+{% endblock %}
