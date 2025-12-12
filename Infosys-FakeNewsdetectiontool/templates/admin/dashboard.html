@@ -1,0 +1,726 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Dashboard - TruthGuard{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gradient-primary">Admin Dashboard</h1>
+        <div>
+            <a href="/admin/analyses" class="btn btn-primary btn-icon-split shadow-sm">
+                <span class="icon text-white-50">
+                    <i class="fas fa-search"></i>
+                </span>
+                <span class="text">View All Analyses</span>
+            </a>
+            <a href="/admin/users" class="btn btn-info btn-icon-split shadow-sm ml-2">
+                <span class="icon text-white-50">
+                    <i class="fas fa-users"></i>
+                </span>
+                <span class="text">Manage Users</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics Row -->
+    <div class="row">
+        <!-- Total Users Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-primary shadow-lg border-0">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Total Users</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.total_users }}</div>
+                            <div class="mt-2 mb-0">
+                                <span class="text-white-50">{{ stats.active_users }} active</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
+                    <a class="small text-white stretched-link" href="/admin/users">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Analyses Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-success shadow-lg border-0">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Total Analyses</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.total_analyses }}</div>
+                            <div class="mt-2 mb-0">
+                                <span class="text-white-50">
+                                    {% if stats.total_users > 0 %}
+                                        {{ (stats.total_analyses / stats.total_users)|round(1) }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                    per user
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-bar fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
+                    <a class="small text-white stretched-link" href="/admin/analyses">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Users Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-info shadow-lg border-0">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Active Users</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">{{ stats.active_users }}</div>
+                            <div class="mt-2 mb-0">
+                                {% if stats.total_users > 0 %}
+                                <span class="text-white-50">{{ ((stats.active_users / stats.total_users) * 100)|round(1) }}% of total</span>
+                                {% else %}
+                                <span class="text-white-50">N/A</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-check fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
+                    <a class="small text-white stretched-link" href="/admin/users">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Average Confidence Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card gradient-warning shadow-lg border-0">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                Avg. Confidence</div>
+                            <div class="h2 mb-0 font-weight-bold text-white">
+                                {% if avg_confidence %}
+                                    {{ avg_confidence|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </div>
+                            <div class="mt-2 mb-0">
+                                <span class="text-white-50">Overall analysis accuracy</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-bullseye fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
+                    <a class="small text-white stretched-link" href="/admin/analyses">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <!-- Pie Chart - Classification Distribution -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-pie mr-2"></i>Classification Distribution
+                    </h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Chart Options:</div>
+                            <a class="dropdown-item" href="#" onclick="updateChart('pie')">Pie Chart</a>
+                            <a class="dropdown-item" href="#" onclick="updateChart('doughnut')">Doughnut Chart</a>
+                            <a class="dropdown-item" href="#" onclick="updateChart('polar')">Polar Area</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="classificationChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-3">
+                            <i class="fas fa-circle text-success"></i> Reliable
+                        </span>
+                        <span class="mr-3">
+                            <i class="fas fa-circle text-warning"></i> Suspicious
+                        </span>
+                        <span class="mr-3">
+                            <i class="fas fa-circle text-danger"></i> Fake
+                        </span>
+                        <span>
+                            <i class="fas fa-circle text-secondary"></i> Other
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bar Chart - Monthly Analysis Trend -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-bar mr-2"></i>Monthly Analysis Trend
+                    </h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Time Range:</div>
+                            <a class="dropdown-item" href="#" onclick="updateTrendChart(7)">Last 7 Days</a>
+                            <a class="dropdown-item" href="#" onclick="updateTrendChart(30)">Last 30 Days</a>
+                            <a class="dropdown-item" href="#" onclick="updateTrendChart(90)">Last 3 Months</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Row -->
+    <div class="row">
+        <!-- Recent Users -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-user-clock mr-2"></i>Recent Users
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_users %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="border-top-0">User</th>
+                                    <th class="border-top-0">Joined</th>
+                                    <th class="border-top-0">Status</th>
+                                    <th class="border-top-0">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in recent_users %}
+                                <tr class="{% if user.is_active %}table-success{% else %}table-light{% endif %}">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-primary rounded-circle text-white d-flex align-items-center justify-content-center mr-3" style="width: 36px; height: 36px;">
+                                                {{ user.name[0]|upper }}
+                                            </div>
+                                            <div>
+                                                <div class="font-weight-bold">{{ user.name }}</div>
+                                                <div class="text-muted small">{{ user.email }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ user.created_at.strftime('%b %d, %Y') }}</td>
+                                    <td>
+                                        {% if user.is_active %}
+                                        <span class="badge badge-success badge-pill">Active</span>
+                                        {% else %}
+                                        <span class="badge badge-danger badge-pill">Inactive</span>
+                                        {% endif %}
+                                        {% if user.role == 'admin' %}
+                                        <span class="badge badge-primary badge-pill ml-1">Admin</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="/admin/users" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if user.role != 'admin' %}
+                                            <form method="POST" action="/admin/user/{{ user.id }}/toggle" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-{% if user.is_active %}warning{% else %}success{% endif %} btn-sm">
+                                                    <i class="fas fa-{% if user.is_active %}ban{% else %}check{% endif %}"></i>
+                                                </button>
+                                            </form>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-users fa-4x text-muted mb-3"></i>
+                        <p class="text-muted">No users registered yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-transparent border-top-0">
+                    <a href="/admin/users" class="btn btn-primary btn-block">
+                        <i class="fas fa-users mr-2"></i>View All Users
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Analyses -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-info py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-history mr-2"></i>Recent Analyses
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_analyses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="border-top-0">Analysis</th>
+                                    <th class="border-top-0">User</th>
+                                    <th class="border-top-0">Result</th>
+                                    <th class="border-top-0">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for analysis in recent_analyses %}
+                                <tr>
+                                    <td class="font-weight-bold">#{{ analysis.id }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-info rounded-circle text-white d-flex align-items-center justify-content-center mr-2" style="width: 30px; height: 30px;">
+                                                {{ analysis.author.name[0]|upper if analysis.author else 'U' }}
+                                            </div>
+                                            {{ analysis.author.name if analysis.author else 'Unknown' }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if analysis.classification == 'RELIABLE' %}
+                                        <span class="badge badge-success badge-pill">
+                                            <i class="fas fa-check-circle mr-1"></i>Reliable
+                                        </span>
+                                        {% elif analysis.classification == 'SUSPICIOUS' %}
+                                        <span class="badge badge-warning badge-pill">
+                                            <i class="fas fa-exclamation-triangle mr-1"></i>Suspicious
+                                        </span>
+                                        {% elif analysis.classification == 'FAKE' %}
+                                        <span class="badge badge-danger badge-pill">
+                                            <i class="fas fa-times-circle mr-1"></i>Fake
+                                        </span>
+                                        {% else %}
+                                        <span class="badge badge-secondary badge-pill">
+                                            <i class="fas fa-question-circle mr-1"></i>{{ analysis.classification }}
+                                        </span>
+                                        {% endif %}
+                                        {% if analysis.confidence_score %}
+                                        <small class="text-muted ml-1">{{ analysis.confidence_score|round(1) }}%</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{ analysis.created_at.strftime('%b %d, %H:%M') }}</small>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-chart-bar fa-4x text-muted mb-3"></i>
+                        <p class="text-muted">No analyses performed yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-transparent border-top-0">
+                    <a href="/admin/analyses" class="btn btn-info btn-block">
+                        <i class="fas fa-search mr-2"></i>View All Analyses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Status Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-dark py-3 border-0">
+                    <h6 class="m-0 font-weight-bold text-white">
+                        <i class="fas fa-heartbeat mr-2"></i>System Status
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <div class="card bg-success text-white mb-3 border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-server fa-3x mb-3"></i>
+                                    <h5 class="card-title">Database</h5>
+                                    <p class="card-text font-weight-bold">Healthy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="card bg-info text-white mb-3 border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-bolt fa-3x mb-3"></i>
+                                    <h5 class="card-title">Fast Detector</h5>
+                                    <p class="card-text font-weight-bold">Ready (<50ms)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="card bg-warning text-white mb-3 border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-robot fa-3x mb-3"></i>
+                                    <h5 class="card-title">Chatbot</h5>
+                                    <p class="card-text font-weight-bold">
+                                        {% if chatbot_ai_enabled %}AI Enabled{% else %}Rule-Based{% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="card bg-primary text-white mb-3 border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-shield-alt fa-3x mb-3"></i>
+                                    <h5 class="card-title">Security</h5>
+                                    <p class="card-text font-weight-bold">Protected</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Classification Chart Data
+const classificationData = {
+    labels: ['Reliable', 'Suspicious', 'Fake', 'Other'],
+    datasets: [{
+        data: [
+            {{ stats.classifications.get('RELIABLE', 0) }},
+            {{ stats.classifications.get('SUSPICIOUS', 0) }},
+            {{ stats.classifications.get('FAKE', 0) }},
+            {{ stats.classifications.get('UNKNOWN', 0) + stats.classifications.get('INSUFFICIENT', 0) }}
+        ],
+        backgroundColor: [
+            '#28a745',
+            '#ffc107',
+            '#dc3545',
+            '#6c757d'
+        ],
+        hoverBackgroundColor: [
+            '#218838',
+            '#e0a800',
+            '#c82333',
+            '#545b62'
+        ],
+        borderWidth: 2,
+        borderColor: '#fff'
+    }]
+};
+
+// Trend Chart Data (sample data - you would replace with real data from your backend)
+const trendData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [{
+        label: 'Analyses',
+        data: [65, 59, 80, 81, 56, 55, 40, 78, 90, 100, 120, 150],
+        backgroundColor: 'rgba(78, 115, 223, 0.1)',
+        borderColor: 'rgba(78, 115, 223, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: true
+    }]
+};
+
+// Initialize Charts
+let classificationChart;
+let trendChart;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Pie/Doughnut Chart
+    const classificationCtx = document.getElementById('classificationChart').getContext('2d');
+    classificationChart = new Chart(classificationCtx, {
+        type: 'pie',
+        data: classificationData,
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        const dataset = data.datasets[tooltipItem.datasetIndex];
+                        const total = dataset.data.reduce((a, b) => a + b, 0);
+                        const currentValue = dataset.data[tooltipItem.index];
+                        const percentage = ((currentValue / total) * 100).toFixed(1);
+                        return data.labels[tooltipItem.index] + ': ' + currentValue + ' (' + percentage + '%)';
+                    }
+                }
+            },
+            legend: {
+                display: false
+            },
+            cutoutPercentage: 0,
+        }
+    });
+
+    // Line Chart
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    trendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: trendData,
+        options: {
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        fontColor: '#858796'
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        fontColor: '#858796',
+                        padding: 10,
+                        beginAtZero: true
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                intersect: false,
+                mode: 'index',
+                caretPadding: 10,
+                callbacks: {
+                    label: function(tooltipItem, chart) {
+                        return 'Analyses: ' + tooltipItem.yLabel;
+                    }
+                }
+            }
+        }
+    });
+});
+
+// Update chart type
+function updateChart(type) {
+    classificationChart.config.type = type;
+    classificationChart.update();
+    showNotification('Chart type changed to ' + type.charAt(0).toUpperCase() + type.slice(1));
+}
+
+// Update trend chart data (simulated)
+function updateTrendChart(days) {
+    // In a real application, you would fetch new data from the server
+    const newData = generateSampleData(days);
+    trendChart.data.datasets[0].data = newData;
+
+    // Update labels
+    const labels = generateLabels(days);
+    trendChart.data.labels = labels;
+
+    trendChart.update();
+    showNotification('Showing data for last ' + days + ' days');
+}
+
+// Helper functions for sample data
+function generateSampleData(days) {
+    const data = [];
+    for (let i = 0; i < days; i++) {
+        data.push(Math.floor(Math.random() * 200) + 50);
+    }
+    return data;
+}
+
+function generateLabels(days) {
+    const labels = [];
+    const now = new Date();
+    for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(now);
+        date.setDate(date.getDate() - i);
+        if (days <= 30) {
+            labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+        } else {
+            labels.push(date.toLocaleDateString('en-US', { month: 'short' }));
+        }
+    }
+    return labels;
+}
+
+// Show notification
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'alert alert-info alert-dismissible fade show position-fixed';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        <strong>Info:</strong> ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Real-time updates (simulated)
+setInterval(() => {
+    // In a real application, you would fetch updated data from the server
+    const newData = classificationData.datasets[0].data.map(value => {
+        return value + Math.floor(Math.random() * 5);
+    });
+    classificationChart.data.datasets[0].data = newData;
+    classificationChart.update();
+
+    // Update trend chart with new point
+    const trendData = trendChart.data.datasets[0].data;
+    trendData.shift();
+    trendData.push(Math.floor(Math.random() * 200) + 50);
+    trendChart.update();
+}, 30000); // Update every 30 seconds
+</script>
+
+<!-- Custom CSS for Gradient Cards -->
+<style>
+.gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.gradient-info {
+    background: linear-gradient(135deg, #36D1DC 0%, #5B86E5 100%);
+}
+
+.gradient-warning {
+    background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+}
+
+.gradient-dark {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+}
+
+.text-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card {
+    border-radius: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+}
+
+.avatar-sm {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.badge-pill {
+    border-radius: 10rem;
+    padding: 0.35em 0.65em;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,0.075);
+}
+
+.chart-pie {
+    height: 250px;
+}
+
+.chart-area {
+    height: 250px;
+}
+</style>
+{% endblock %}

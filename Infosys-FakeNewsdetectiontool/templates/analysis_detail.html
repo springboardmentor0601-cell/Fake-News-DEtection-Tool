@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Details - TruthGuard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/history">History</a></li>
+                    <li class="breadcrumb-item active">Analysis Details</li>
+                </ol>
+            </nav>
+            <h1><i class="fas fa-file-alt"></i> Analysis Details</h1>
+            <p class="text-muted">ID: {{ analysis.id }} • {{ analysis.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+    </div>
+
+    <!-- Main Analysis Card -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Analysis Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3>
+                                {% if analysis.classification == 'RELIABLE' %}
+                                <span class="badge bg-success">Reliable Content</span>
+                                {% elif analysis.classification == 'SUSPICIOUS' %}
+                                <span class="badge bg-warning">Suspicious Content</span>
+                                {% elif analysis.classification == 'FAKE' %}
+                                <span class="badge bg-danger">Fake Content</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ analysis.classification }}</span>
+                                {% endif %}
+                            </h3>
+
+                            {% if analysis.confidence_score %}
+                            <div class="mt-3">
+                                <h5>Confidence: {{ (analysis.confidence_score * 100)|round(1) }}%</h5>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar
+                                        {% if analysis.confidence_score >= 0.7 %}bg-success
+                                        {% elif analysis.confidence_score >= 0.4 %}bg-warning
+                                        {% else %}bg-danger{% endif %}"
+                                        style="width: {{ analysis.confidence_score * 100 }}%">
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if analysis.title %}
+                            <div class="mt-3">
+                                <h5>Title</h5>
+                                <p>{{ analysis.title }}</p>
+                            </div>
+                            {% endif %}
+
+                            {% if analysis.source_url %}
+                            <div class="mt-3">
+                                <h5>Source URL</h5>
+                                <p><a href="{{ analysis.source_url }}" target="_blank">{{ analysis.source_url }}</a></p>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Scores</h5>
+                                    {% if analysis.credibility_score %}
+                                    <div class="mb-3">
+                                        <small class="text-muted">Credibility</small>
+                                        <h3>{{ analysis.credibility_score|round(1) }}/10</h3>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if analysis.sensationalism_score %}
+                                    <div class="mb-3">
+                                        <small class="text-muted">Sensationalism</small>
+                                        <h3>{{ analysis.sensationalism_score|round(1) }}/10</h3>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if analysis.sentiment_score %}
+                                    <div class="mb-3">
+                                        <small class="text-muted">Sentiment</small>
+                                        <h3>{{ analysis.sentiment_score|round(2) }}</h3>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Analysis Type</h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if analysis.is_quick_analysis %}
+                    <div class="display-1 text-primary">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4>Quick Analysis</h4>
+                    <p class="text-muted">Fast analysis completed in under 100ms</p>
+                    {% else %}
+                    <div class="display-1 text-success">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4>Detailed Analysis</h4>
+                    <p class="text-muted">Comprehensive analysis with full report</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Preview -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Content Preview</h5>
+                </div>
+                <div class="card-body">
+                    <div class="content-preview" style="max-height: 300px; overflow-y: auto;">
+                        {{ analysis.content|safe }}
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">{{ analysis.content|length }} characters</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Findings -->
+    {% if key_findings %}
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-search"></i> Key Findings</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for finding in key_findings %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-{{ finding.type }}">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="display-6 me-3">{{ finding.icon }}</span>
+                                        <h5 class="card-title mb-0">{{ finding.title }}</h5>
+                                    </div>
+                                    <p class="card-text">{{ finding.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recommendations & Fact Checks -->
+    {% if analysis_type == 'detailed' %}
+    <div class="row">
+        {% if recommendations %}
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Recommendations</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for recommendation in recommendations %}
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            {{ recommendation }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if fact_checks %}
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fas fa-clipboard-check"></i> Fact Checks</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Claim</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for check in fact_checks %}
+                                <tr>
+                                    <td>{{ check.claim }}</td>
+                                    <td>
+                                        {% if check.status == 'GOOD' or check.status == 'LOW' or check.status == 'BALANCED' %}
+                                        <span class="badge bg-success">{{ check.status }}</span>
+                                        {% elif check.status == 'POOR' or check.status == 'HIGH' or check.status == 'BIASED' %}
+                                        <span class="badge bg-danger">{{ check.status }}</span>
+                                        {% else %}
+                                        <span class="badge bg-warning">{{ check.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ check.details }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Actions -->
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">
+                    <a href="/analyze" class="btn btn-primary me-3">
+                        <i class="fas fa-bolt"></i> New Analysis
+                    </a>
+                    <a href="/history" class="btn btn-outline-secondary me-3">
+                        <i class="fas fa-history"></i> Back to History
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-primary">
+                        <i class="fas fa-print"></i> Print Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

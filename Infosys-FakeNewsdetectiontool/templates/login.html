@@ -1,0 +1,574 @@
+{% extends "base.html" %}
+
+{% block title %}Login - TruthGuard{% endblock %}
+
+{% block content %}
+<!-- Background Gradient Container -->
+<div class="login-container" style="
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    padding: 20px;
+">
+    <div class="container py-5">
+        <!-- Animated Floating Shapes -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- Left Side - Branding & Info -->
+            <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                <div class="card border-0 shadow-lg glass-morphism" style="
+                    background: rgba(255, 255, 255, 0.15);
+                    backdrop-filter: blur(10px);
+                    border-radius: 20px;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                ">
+                    <div class="card-body p-5 text-white">
+                        <div class="text-center mb-5">
+                            <div class="logo-container mb-4">
+                                <i class="fas fa-shield-alt fa-4x text-white mb-3" style="
+                                    background: linear-gradient(45deg, #ff6b6b, #ffd166);
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                "></i>
+                            </div>
+                            <h1 class="h2 fw-bold mb-3">Welcome to <span class="brand-gradient">TruthGuard</span></h1>
+                            <p class="opacity-75">Your trusted partner in fighting misinformation and fake news</p>
+                        </div>
+
+                        <!-- Features List -->
+                        <div class="features-list">
+                            <div class="feature-item mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="feature-icon me-3">
+                                        <i class="fas fa-bolt text-warning fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Ultra-Fast Analysis</h6>
+                                        <small class="opacity-75">Analyze content in milliseconds</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feature-item mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="feature-icon me-3">
+                                        <i class="fas fa-robot text-info fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">AI-Powered Detection</h6>
+                                        <small class="opacity-75">Advanced Gemini AI integration</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feature-item mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="feature-icon me-3">
+                                        <i class="fas fa-chart-line text-success fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Real-Time Insights</h6>
+                                        <small class="opacity-75">Comprehensive analytics dashboard</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Counter -->
+                        <div class="stats-counter mt-5">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <h3 class="fw-bold mb-0">1M+</h3>
+                                    <small class="opacity-75">Analyses</small>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="fw-bold mb-0">99%</h3>
+                                    <small class="opacity-75">Accuracy</small>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="fw-bold mb-0">50ms</h3>
+                                    <small class="opacity-75">Response</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Login Form -->
+            <div class="col-lg-5 col-md-6">
+                <div class="card border-0 shadow-lg" style="
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(10px);
+                    border-radius: 20px;
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    overflow: hidden;
+                ">
+                    <!-- Card Header with Gradient -->
+                    <div class="card-header border-0 text-center py-4" style="
+                        background: linear-gradient(90deg, #667eea, #764ba2);
+                        color: white;
+                    ">
+                        <h2 class="h3 mb-0 fw-bold">
+                            <i class="fas fa-sign-in-alt me-2"></i>Welcome Back!
+                        </h2>
+                        <p class="mb-0 opacity-75">Sign in to continue your journey</p>
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+                        <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+                            <!-- Email Input with Icon -->
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold text-gradient">
+                                    <i class="fas fa-envelope me-2"></i>Email Address
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-gradient-primary text-white border-0">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0" id="email" name="email"
+                                           required placeholder="you@example.com"
+                                           value="{{ request.form.email if request.form.email }}">
+                                </div>
+                            </div>
+
+                            <!-- Password Input with Toggle -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-bold text-gradient">
+                                    <i class="fas fa-lock me-2"></i>Password
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-gradient-primary text-white border-0">
+                                        <i class="fas fa-key"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0" id="password"
+                                           name="password" required placeholder="••••••••">
+                                    <button class="btn btn-outline-secondary password-toggle" type="button">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="text-end mt-2">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal"
+                                       class="text-decoration-none fw-bold text-gradient">
+                                        <i class="fas fa-question-circle me-1"></i>Forgot password?
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Remember Me -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember"
+                                           style="width: 1.2em; height: 1.2em;">
+                                    <label class="form-check-label fw-bold text-gradient" for="remember">
+                                        <i class="fas fa-bookmark me-1"></i>Remember me
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Login Button -->
+                            <button type="submit" class="btn btn-lg btn-gradient-primary w-100 py-3 mb-4 fw-bold"
+                                    style="
+                                        background: linear-gradient(90deg, #667eea, #764ba2);
+                                        border: none;
+                                        font-size: 1.1rem;
+                                    ">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </button>
+
+                            <!-- Divider -->
+                            <div class="position-relative my-4">
+                                <hr>
+                                <div class="position-absolute top-50 start-50 translate-middle bg-white px-3">
+                                    <span class="text-muted">or continue with</span>
+                                </div>
+                            </div>
+
+                            <!-- Social Login Buttons -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-google w-100 py-2">
+                                        <i class="fab fa-google text-danger me-2"></i>Google
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-github w-100 py-2">
+                                        <i class="fab fa-github me-2"></i>GitHub
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Register Link -->
+                            <div class="text-center">
+                                <p class="mb-0">
+                                    New to TruthGuard?
+                                    <a href="{{ url_for('register') }}" class="fw-bold text-gradient text-decoration-none">
+                                        <i class="fas fa-user-plus me-1"></i>Create Account
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="card-footer border-0 text-center py-3" style="
+                        background: linear-gradient(90deg, #f093fb, #f5576c);
+                        color: white;
+                    ">
+                        <small>
+                            <i class="fas fa-shield-alt me-1"></i>Your security is our priority
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="text-center mt-4">
+            <small class="text-white opacity-75">
+                <i class="fas fa-info-circle me-1"></i>
+                By signing in, you agree to our Terms of Service and Privacy Policy
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0" style="
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                color: white;
+                border-radius: 20px 20px 0 0;
+            ">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-key me-2"></i>Reset Password
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="mb-4">
+                    <i class="fas fa-envelope-open-text me-2 text-primary"></i>
+                    Enter your email address and we'll send you a magic link to reset your password.
+                </p>
+                <form id="resetPasswordForm">
+                    <div class="mb-4">
+                        <input type="email" class="form-control form-control-lg border-primary"
+                               id="resetEmail" placeholder="Enter your email" required
+                               style="border-color: #667eea;">
+                    </div>
+                    <button type="submit" class="btn btn-gradient-primary w-100 py-3 fw-bold">
+                        <i class="fas fa-paper-plane me-2"></i>Send Reset Link
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.brand-gradient {
+    background: linear-gradient(45deg, #ff6b6b, #ffd166, #06d6a0, #118ab2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: gradientBG 8s ease infinite;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient-primary {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-gradient-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.btn-outline-google {
+    border-color: #db4437;
+    color: #db4437;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-google:hover {
+    background-color: #db4437;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-github {
+    border-color: #333;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-github:hover {
+    background-color: #333;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.password-toggle {
+    border-left: none;
+}
+
+.password-toggle:hover {
+    background-color: #f8f9fa;
+}
+
+/* Floating Shapes */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 107, 107, 0.2);
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 120px;
+    height: 120px;
+    background: rgba(102, 126, 234, 0.2);
+    bottom: 20%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.shape-3 {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 209, 102, 0.2);
+    top: 50%;
+    left: 5%;
+    animation-delay: 1s;
+}
+
+.shape-4 {
+    width: 100px;
+    height: 100px;
+    background: rgba(17, 138, 178, 0.2);
+    bottom: 10%;
+    left: 20%;
+    animation-delay: 3s;
+}
+
+.shape-5 {
+    width: 90px;
+    height: 90px;
+    background: rgba(118, 75, 162, 0.2);
+    top: 20%;
+    right: 10%;
+    animation-delay: 4s;
+}
+
+/* Glass Morphism Effect */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Feature Icons */
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Input Focus Effects */
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 2rem !important;
+    }
+
+    .floating-shapes {
+        display: none;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Password toggle functionality
+    $('.password-toggle').click(function() {
+        const passwordInput = $(this).closest('.input-group').find('input');
+        const icon = $(this).find('i');
+
+        if (passwordInput.attr('type') === 'password') {
+            passwordInput.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordInput.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+
+    // Forgot password form
+    $('#resetPasswordForm').on('submit', function(e) {
+        e.preventDefault();
+        const email = $('#resetEmail').val();
+
+        if (!email) {
+            showAlert('Please enter your email address', 'danger');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showAlert('Please enter a valid email address', 'warning');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = $(this).find('button[type="submit"]');
+        const originalText = submitBtn.html();
+        submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Sending...');
+        submitBtn.prop('disabled', true);
+
+        // Simulate API call
+        setTimeout(() => {
+            $('#forgotPasswordModal').modal('hide');
+            showAlert('Password reset link has been sent to your email!', 'success');
+            $('#resetEmail').val('');
+            submitBtn.html(originalText);
+            submitBtn.prop('disabled', false);
+        }, 1500);
+    });
+
+    // Form validation
+    $('#loginForm').on('submit', function() {
+        const submitBtn = $(this).find('button[type="submit"]');
+        submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Signing in...');
+        submitBtn.prop('disabled', true);
+    });
+
+    // Social login buttons hover effect
+    $('.btn-outline-google, .btn-outline-github').hover(
+        function() {
+            $(this).addClass('shadow-sm');
+        },
+        function() {
+            $(this).removeClass('shadow-sm');
+        }
+    );
+
+    // Animate elements on scroll
+    function animateOnScroll() {
+        $('.card').each(function() {
+            const elementTop = $(this).offset().top;
+            const elementBottom = elementTop + $(this).outerHeight();
+            const viewportTop = $(window).scrollTop();
+            const viewportBottom = viewportTop + $(window).height();
+
+            if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                $(this).addClass('animate__animated animate__fadeInUp');
+            }
+        });
+    }
+
+    // Initial animation
+    setTimeout(() => {
+        $('.card').addClass('animate__animated animate__fadeInUp');
+    }, 300);
+
+    // Scroll animation
+    $(window).scroll(animateOnScroll);
+    animateOnScroll(); // Initial check
+});
+
+// Custom alert function
+function showAlert(message, type) {
+    const alertClass = type === 'success' ? 'alert-success' :
+                      type === 'warning' ? 'alert-warning' :
+                      type === 'danger' ? 'alert-danger' : 'alert-info';
+
+    const alertHtml = `
+        <div class="alert ${alertClass} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg"
+             style="z-index: 9999; min-width: 300px; border-radius: 15px;" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-exclamation-circle'} me-2"></i>
+                <div>${message}</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+
+    $('body').append(alertHtml);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        $('.alert').alert('close');
+    }, 5000);
+}
+</script>
+{% endblock %}
