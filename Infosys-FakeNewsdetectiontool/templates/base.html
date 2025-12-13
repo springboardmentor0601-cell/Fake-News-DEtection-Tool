@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TruthGuard - Fight Misinformation{% endblock %}</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
+    {% block extra_css %}{% endblock %}
+
+    <style>
+        /* Global Color Variables */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
+            --warning-gradient: linear-gradient(135deg, #ffd166 0%, #ff9e6d 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --danger-gradient: linear-gradient(135deg, #ef476f 0%, #ff6b6b 100%);
+            --purple-gradient: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            --dark-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+            --chat-bg: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --user-msg-bg: #667eea;
+            --bot-msg-bg: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.12);
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(6, 214, 160, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            padding: 15px 0;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #667eea, #f093fb, #06d6a0, #ff6b6b);
+            border-image-slice: 1;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%) !important;
+        }
+
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #ffffff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-brand i {
+            font-size: 2rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 10px 20px !important;
+            margin: 0 5px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ffd700, #ffffff);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Enhanced Main Content */
+        main.container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-top: 100px;
+            margin-bottom: 50px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.3),
+                inset 0 0 50px rgba(255, 255, 255, 0.5);
+            border: 2px solid transparent;
+            border-image: linear-gradient(135deg, #667eea, #06d6a0, #ff6b6b, #ffd166);
+            border-image-slice: 1;
+        }
+
+        /* Enhanced Footer */
+        footer.footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 0 30px;
+        }
+
+        footer.footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg,
+                #667eea 0%, #f093fb 25%, #06d6a0 50%,
+                #ff6b6b 75%, #ffd166 100%
+            );
+            animation: shimmer 3s infinite linear;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .footer h5, .footer h6 {
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer p {
+            color: #b0b7c3;
+            line-height: 1.6;
+        }
+
+        .footer .list-unstyled a {
+            color: #b0b7c3;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+            display: inline-block;
+            position: relative;
+        }
+
+        .footer .list-unstyled a::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: #4facfe;
+        }
+
+        .footer .list-unstyled a:hover {
+            color: #ffffff;
+            transform: translateX(10px);
+        }
+
+        .footer .list-unstyled a:hover::before {
+            opacity: 1;
+            left: -15px;
+        }
+
+        .footer .social-links a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, currentColor, rgba(255, 255, 255, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer .social-links a:hover::before {
+            opacity: 0.3;
+        }
+
+        .footer .social-links a.fa-twitter { background: #1da1f2; color: white; }
+        .footer .social-links a.fa-facebook { background: #1877f2; color: white; }
+        .footer .social-links a.fa-linkedin { background: #0a66c2; color: white; }
+        .footer .social-links a.fa-github { background: #333; color: white; }
+
+        .footer hr {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            height: 1px;
+            border: none;
+            margin: 30px 0;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: #8a94a6;
+        }
+
+        .footer-bottom .text-danger {
+            animation: heartbeat 1.5s ease infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        /* Enhanced Chatbot */
+        .gradient-chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 100%) !important;
+            background-size: 300% 300%;
+            animation: gradientShift 5s ease infinite;
+            border-radius: 0 !important;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--chat-bg);
+            scroll-behavior: smooth;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .chat-message {
+            display: flex;
+            margin-bottom: 20px;
+            animation: slideIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .user-message {
+            flex-direction: row-reverse;
+            animation: slideInRight 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message-avatar {
+            flex-shrink: 0;
+            margin: 0 10px;
+        }
+
+        .avatar-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            border: 3px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .avatar-circle:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 10px 25px var(--shadow-medium);
+        }
+
+        .bg-gradient-primary {
+            background: var(--primary-gradient);
+        }
+
+        .bg-gradient-success {
+            background: var(--success-gradient);
+        }
+
+        .message-content {
+            max-width: 70%;
+            min-width: 200px;
+        }
+
+        .user-message .message-content {
+            text-align: right;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: #333;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 2px 0;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .message-text {
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            word-wrap: break-word;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            background: var(--bot-msg-bg);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: all 0.3s ease;
+        }
+
+        .message-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(135deg, #667eea, #06d6a0, #ff6b6b);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .message-text:hover::before {
+            opacity: 1;
+        }
+
+        .bot-message .message-text {
+            background: var(--bot-msg-bg);
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-message .message-text {
+            background: var(--user-msg-bg);
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .quick-suggestions {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-top: 2px solid #eaeaea;
+            padding: 20px;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .suggestion-chip {
+            border-radius: 25px !important;
+            padding: 10px 25px !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid transparent !important;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .suggestion-chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .suggestion-chip:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px var(--shadow-medium) !important;
+        }
+
+        .suggestion-chip:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn-outline-primary.suggestion-chip {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            color: #667eea;
+            border-color: #667eea !important;
+        }
+
+        .btn-outline-info.suggestion-chip {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+            color: #4facfe;
+            border-color: #4facfe !important;
+        }
+
+        .btn-outline-success.suggestion-chip {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1), rgba(17, 153, 142, 0.1));
+            color: #06d6a0;
+            border-color: #06d6a0 !important;
+        }
+
+        .btn-outline-warning.suggestion-chip {
+            background: linear-gradient(135deg, rgba(255, 209, 102, 0.1), rgba(255, 158, 109, 0.1));
+            color: #ffd166;
+            border-color: #ffd166 !important;
+        }
+
+        .chat-input {
+            background: white;
+            border-top: 2px solid #eaeaea;
+        }
+
+        .btn-send {
+            padding: 12px 30px;
+            background: var(--primary-gradient) !important;
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-send::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+        }
+
+        .btn-send:hover::after {
+            animation: shine 0.5s ease;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .chat-toggle-btn {
+            width: 70px;
+            height: 70px;
+            background: var(--primary-gradient) !important;
+            border: none;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite, pulse 2s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        }
+
+        .chat-toggle-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4) !important;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            animation: ringPulse 2s infinite;
+        }
+
+        @keyframes ringPulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .online-indicator {
+            display: flex;
+            align-items: center;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--success-gradient);
+            border-radius: 50%;
+            animation: statusPulse 2s infinite;
+            box-shadow: 0 0 10px rgba(6, 214, 160, 0.5);
+        }
+
+        @keyframes statusPulse {
+            0% { box-shadow: 0 0 0 0 rgba(6, 214, 160, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(6, 214, 160, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(6, 214, 160, 0); }
+        }
+
+        .chat-features .btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50% !important;
+            transition: all 0.3s ease;
+        }
+
+        .chat-features .btn:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        .modal-content {
+            animation: modalSlideIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            border-radius: 25px !important;
+            overflow: hidden;
+            border: 3px solid transparent;
+            border-image: linear-gradient(135deg, #667eea, #06d6a0, #ff6b6b);
+            border-image-slice: 1;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Enhanced Alert Messages */
+        .alert {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-left: 5px solid;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1), rgba(17, 153, 142, 0.1));
+            border-left-color: #06d6a0;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(239, 71, 111, 0.1), rgba(255, 107, 107, 0.1));
+            border-left-color: #ef476f;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, rgba(255, 209, 102, 0.1), rgba(255, 158, 109, 0.1));
+            border-left-color: #ffd166;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+            border-left-color: #4facfe;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(135deg, #f1f1f1, #e1e1e1);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-gradient);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main.container {
+                padding: 20px;
+                margin-top: 80px;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+
+            .nav-link {
+                padding: 8px 15px !important;
+                margin: 2px 0;
+            }
+
+            .chat-toggle-btn {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .footer {
+                text-align: center;
+            }
+
+            .footer .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Additional Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate__animated {
+            animation-duration: 0.6s;
+        }
+
+        /* Floating Animations for Background Elements */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(-10px) rotate(240deg); }
+        }
+
+        .floating-bg-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+            animation: floatSlow 20s infinite linear;
+        }
+
+        /* Enhanced Input Fields */
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        /* Button Enhancements */
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success-gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: var(--danger-gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning {
+            background: var(--warning-gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info {
+            background: var(--info-gradient);
+            border: none;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="{% if current_user.is_authenticated %}logged-in{% endif %}">
+
+    <!-- Background Floating Elements -->
+    <div class="floating-bg-element" style="top: 10%; left: 5%; width: 100px; height: 100px; background: var(--primary-gradient); border-radius: 50%; animation-delay: 0s;"></div>
+    <div class="floating-bg-element" style="top: 70%; right: 10%; width: 150px; height: 150px; background: var(--secondary-gradient); border-radius: 30%; animation-delay: 5s;"></div>
+    <div class="floating-bg-element" style="top: 30%; right: 20%; width: 80px; height: 80px; background: var(--success-gradient); border-radius: 40%; animation-delay: 10s;"></div>
+    <div class="floating-bg-element" style="bottom: 20%; left: 15%; width: 120px; height: 120px; background: var(--danger-gradient); border-radius: 60% 40% 30% 70%; animation-delay: 15s;"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <i class="fas fa-shield-alt me-2"></i>
+                <span>TruthGuard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('analyze') }}">
+                            <i class="fas fa-search me-1"></i> Analyze
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-chart-line me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">
+                            <i class="fas fa-info-circle me-1"></i> About
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role == 'admin' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                                    <i class="fas fa-crown me-1"></i> Admin
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('profile') }}">
+                                <i class="fas fa-user me-1"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt me-1"></i> Logout
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('register') }}">
+                                <i class="fas fa-user-plus me-1"></i> Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mt-5 pt-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show animate__animated animate__fadeInDown" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mt-5 pt-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-shield-alt me-2"></i>TruthGuard</h5>
+                    <p>Fighting misinformation with AI-powered analysis and fact-checking. Join us in creating a more truthful digital world.</p>
+                    <button class="btn btn-outline-light btn-sm mt-2" id="openChatFromFooter">
+                        <i class="fas fa-robot me-2"></i>Open AI Assistant
+                    </button>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('analyze') }}">Analyze</a></li>
+                        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6>Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6>Connect With Us</h6>
+                    <div class="social-links d-flex mt-3">
+                        <a href="#" class="fa-twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="fa-facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="fa-linkedin"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="fa-github"><i class="fab fa-github"></i></a>
+                    </div>
+                    <p class="mt-4">
+                        <i class="fas fa-envelope me-2"></i>support@truthguard.com
+                    </p>
+                    <p class="mb-0">
+                        <i class="fas fa-phone me-2"></i>+1 (555) 123-4567
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="row footer-bottom">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; <span id="currentYear"></span> TruthGuard. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Made with <i class="fas fa-heart text-danger"></i> for a truthful web</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Beautiful Chatbot Modal -->
+    <div class="modal fade" id="chatbotModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0">
+                <!-- Chat Header -->
+                <div class="modal-header gradient-chat-header py-4 border-0">
+                    <div class="w-100 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="modal-title text-white mb-0">
+                                <i class="fas fa-robot me-3"></i> TruthGuard AI Assistant
+                            </h5>
+                            <div class="online-indicator mt-1">
+                                <span class="pulse me-2"></span>
+                                <span class="status-text text-white-50" id="aiStatus">
+                                    {% if gemini_available %}
+                                        Online • Powered by {{ gemini_model }}
+                                    {% else %}
+                                        Online • Using Enhanced Responses
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                </div>
+
+                <div class="modal-body p-0">
+                    <!-- Chat Container -->
+                    <div id="chatContainer" class="chat-container">
+                        <!-- Welcome Message -->
+                        <div class="chat-message bot-message">
+                            <div class="message-avatar">
+                                <div class="avatar-circle bg-gradient-primary">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">TruthGuard AI</span>
+                                    <span class="message-time" id="welcomeTime"></span>
+                                </div>
+                                <div class="message-text">
+                                    <p>👋 Hello! I'm your TruthGuard AI Assistant{% if gemini_available %}, powered by {{ gemini_model }}{% endif %}.</p>
+                                    <p>I can help you with:</p>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="fas fa-check-circle text-success me-2"></i>Analyzing text for misinformation</li>
+                                        <li><i class="fas fa-link text-primary me-2"></i>Checking URLs for credibility</li>
+                                        <li><i class="fas fa-lightbulb text-warning me-2"></i>Fact-checking assistance</li>
+                                        <li><i class="fas fa-shield-alt text-info me-2"></i>Source verification</li>
+                                        <li><i class="fas fa-search text-danger me-2"></i>Misinformation detection</li>
+                                    </ul>
+                                    <p class="mt-3">What would you like to check today?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Suggestions -->
+                    <div class="quick-suggestions p-3 border-top">
+                        <h6 class="mb-3 text-muted"><i class="fas fa-bolt me-2"></i>Quick Questions:</h6>
+                        <div class="suggestion-chips">
+                            <button class="btn btn-outline-primary suggestion-chip" data-message="How do I analyze content for misinformation?">
+                                <i class="fas fa-search me-2"></i>Analyze Content
+                            </button>
+                            <button class="btn btn-outline-info suggestion-chip" data-message="Tell me about TruthGuard">
+                                <i class="fas fa-info-circle me-2"></i>About TruthGuard
+                            </button>
+                            <button class="btn btn-outline-success suggestion-chip" data-message="How can I check if a news article is fake?">
+                                <i class="fas fa-newspaper me-2"></i>Check News Article
+                            </button>
+                            <button class="btn btn-outline-warning suggestion-chip" data-message="What are the latest fake news trends?">
+                                <i class="fas fa-chart-line me-2"></i>Latest Trends
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input p-3 border-top">
+                        <div class="input-group">
+                            <textarea
+                                class="form-control"
+                                id="messageInput"
+                                placeholder="Type your message here... (Shift+Enter for new line, Enter to send)"
+                                rows="1"
+                                style="resize: none; border-radius: 20px 0 0 20px;"
+                            ></textarea>
+                            <button class="btn btn-primary btn-send" type="button" id="sendButton" style="border-radius: 0 20px 20px 0;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 align-items-center">
+                            <div class="chat-features">
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle me-1" id="clearChatBtn" title="Clear chat">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle" id="copyChatBtn" title="Copy chat">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-success rounded-circle ms-1" id="regenerateBtn" title="Regenerate response">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">
+                                <span id="charCount">0</span>/1000 characters
+                            </small>
+                        </div>
+                        <div class="mt-2">
+                            <div class="progress" id="loadingProgress" style="display: none; height: 3px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Chat Button -->
+    <div id="floatingChatBtn" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000;">
+        <button class="btn btn-primary rounded-circle shadow-lg chat-toggle-btn" id="floatingChatBtn">
+            <i class="fas fa-robot fa-lg"></i>
+            <span class="pulse-ring"></span>
+        </button>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+
+    <script>
+        // Configuration
+        const GEMINI_AVAILABLE = {{ gemini_available|tojson }};
+        const GEMINI_MODEL = "{{ gemini_model }}";
+        const SERVER_ENDPOINT = "/api/chat";
+        const SIMPLE_ENDPOINT = "/api/chat/simple";
+
+        // Chatbot variables
+        let chatHistory = [];
+        let isLoggedIn = {{ 'true' if current_user.is_authenticated else 'false' }};
+        let isAdmin = {{ 'true' if current_user.is_authenticated and current_user.role == 'admin' else 'false' }};
+        let lastUserMessage = "";
+        let isProcessing = false;
+
+        // Show chat modal
+        function showChat() {
+            const modalElement = document.getElementById('chatbotModal');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+            // Scroll to bottom of chat
+            setTimeout(() => {
+                const container = document.getElementById('chatContainer');
+                if (container) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            }, 100);
+        }
+
+        // Send message function
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            if (!messageInput || isProcessing) return;
+
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, false);
+            lastUserMessage = message;
+
+            // Clear input
+            messageInput.value = '';
+            updateCharCount();
+
+            // Show loading indicator
+            showLoading(true);
+
+            try {
+                // Try main chat endpoint
+                await getChatResponse(message);
+            } catch (error) {
+                console.error('Error getting response:', error);
+                // Fallback to simple endpoint
+                try {
+                    await getSimpleChatResponse(message);
+                } catch (simpleError) {
+                    console.error('Simple chat error:', simpleError);
+                    const fallbackResponse = generateFallbackResponse(message);
+                    addMessage(fallbackResponse, true);
+                    showLoading(false);
+                }
+            }
+        }
+
+        // Get response from main chat API
+        async function getChatResponse(message) {
+            const response = await fetch(SERVER_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    session_id: 'web_chat_' + new Date().getTime()
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                addMessage(data.response, true);
+                chatHistory.push({
+                    sender: 'TruthGuard AI',
+                    text: data.response,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    isBot: true,
+                    model: data.model || 'unknown'
+                });
+            } else {
+                throw new Error(data.error || 'Unknown error');
+            }
+
+            showLoading(false);
+        }
+
+        // Get response from simple chat API
+        async function getSimpleChatResponse(message) {
+            const response = await fetch(SIMPLE_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                addMessage(data.response, true);
+                chatHistory.push({
+                    sender: 'TruthGuard AI',
+                    text: data.response,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    isBot: true,
+                    model: 'simple'
+                });
+            } else {
+                throw new Error(data.error || 'Unknown error');
+            }
+
+            showLoading(false);
+        }
+
+        // Generate fallback response
+        function generateFallbackResponse(message) {
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('fake news') || lowerMessage.includes('misinformation') || lowerMessage.includes('fact check')) {
+                return `
+                <strong>Fake News Detection Guide:</strong><br><br>
+                1. 🔍 <strong>Source Verification</strong><br>
+                   • Check the website's "About Us" page<br>
+                   • Look for contact information<br>
+                   • Verify author credentials<br><br>
+
+                2. 📝 <strong>Content Analysis</strong><br>
+                   • Watch for emotional language<br>
+                   • Check for spelling/grammar errors<br>
+                   • Look for cited sources<br><br>
+
+                3. 🏢 <strong>Cross-Referencing</strong><br>
+                   • Search the topic on reputable sites<br>
+                   • Check fact-checking organizations<br><br>
+
+                <strong>Recommended Fact-Checkers:</strong><br>
+                • Snopes.com<br>
+                • FactCheck.org<br>
+                • PolitiFact.com<br>
+                • Reuters Fact Check<br>
+                `;
+            }
+            else if (lowerMessage.includes('analyze') || lowerMessage.includes('check') || lowerMessage.includes('url')) {
+                return `
+                🔍 <strong>Content Analysis Instructions:</strong><br><br>
+                1. Go to the <a href="/analyze" class="text-primary" target="_blank">Analysis page</a><br>
+                2. Paste the text or URL you want to check<br>
+                3. Click "Analyze Content"<br>
+                4. Review the detailed report<br><br>
+
+                <strong>What we analyze:</strong><br>
+                • Source credibility score<br>
+                • Emotional language detection<br>
+                • Factual accuracy indicators<br>
+                • Bias detection<br><br>
+                `;
+            }
+            else {
+                return `
+                I understand you're asking about "${message}".<br><br>
+
+                <strong>As your TruthGuard assistant, I can help with:</strong><br><br>
+                • Content analysis for misinformation<br>
+                • Source credibility assessment<br>
+                • Fact-checking guidance<br>
+                • Misinformation pattern recognition<br><br>
+
+                <div class="alert alert-info mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>AI Status:</strong> ${GEMINI_AVAILABLE ? 'Gemini AI Active' : 'Using enhanced responses'}
+                </div>
+                `;
+            }
+        }
+
+        // Add message to chat
+        function addMessage(text, isBot = true) {
+            const chatContainer = document.getElementById('chatContainer');
+            if (!chatContainer) return;
+
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const messageClass = isBot ? 'bot-message' : 'user-message';
+            const senderName = isBot ? 'TruthGuard AI' : 'You';
+            const avatarIcon = isBot ? 'fa-robot' : 'fa-user';
+            const avatarClass = isBot ? 'bg-gradient-primary' : 'bg-gradient-success';
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${messageClass} animate__animated animate__fadeIn`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <div class="avatar-circle ${avatarClass}">
+                        <i class="fas ${avatarIcon}"></i>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <span class="message-sender">${senderName}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-text">${text}</div>
+                </div>
+            `;
+
+            chatContainer.appendChild(messageDiv);
+
+            if (isBot) {
+                chatHistory.push({ sender: senderName, text, time, isBot });
+            }
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Show/hide loading indicator
+        function showLoading(show) {
+            const progressBar = document.getElementById('loadingProgress');
+            const sendButton = document.getElementById('sendButton');
+
+            if (progressBar) {
+                progressBar.style.display = show ? 'block' : 'none';
+            }
+
+            if (sendButton) {
+                sendButton.disabled = show;
+                sendButton.innerHTML = show ?
+                    '<i class="fas fa-spinner fa-spin"></i>' :
+                    '<i class="fas fa-paper-plane"></i>';
+            }
+
+            isProcessing = show;
+        }
+
+        // Clear chat
+        function clearChat() {
+            if (confirm('Clear chat history?')) {
+                const chatContainer = document.getElementById('chatContainer');
+                if (!chatContainer) return;
+
+                const welcomeTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                chatContainer.innerHTML = `
+                    <div class="chat-message bot-message">
+                        <div class="message-avatar">
+                            <div class="avatar-circle bg-gradient-primary">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">TruthGuard AI</span>
+                                <span class="message-time">${welcomeTime}</span>
+                            </div>
+                            <div class="message-text">
+                                <p>👋 Hello! I'm your TruthGuard AI Assistant${GEMINI_AVAILABLE ? ', powered by ' + GEMINI_MODEL : ''}.</p>
+                                <p>I can help you with:</p>
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Analyzing text for misinformation</li>
+                                    <li><i class="fas fa-link text-primary me-2"></i>Checking URLs for credibility</li>
+                                    <li><i class="fas fa-lightbulb text-warning me-2"></i>Fact-checking assistance</li>
+                                    <li><i class="fas fa-shield-alt text-info me-2"></i>Source verification</li>
+                                    <li><i class="fas fa-search text-danger me-2"></i>Misinformation detection</li>
+                                </ul>
+                                <p class="mt-3">What would you like to check today?</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatHistory = [];
+            }
+        }
+
+        // Regenerate last response
+        function regenerateResponse() {
+            if (!lastUserMessage || isProcessing) return;
+
+            // Remove last bot response from chat
+            const chatContainer = document.getElementById('chatContainer');
+            const messages = chatContainer.querySelectorAll('.chat-message.bot-message');
+            if (messages.length > 0) {
+                const lastBotMessage = messages[messages.length - 1];
+                lastBotMessage.remove();
+            }
+
+            // Remove from history
+            chatHistory = chatHistory.filter(msg => !msg.isBot || msg.text !== lastUserMessage);
+
+            // Send message again
+            const messageInput = document.getElementById('messageInput');
+            if (messageInput) {
+                messageInput.value = lastUserMessage;
+                sendMessage();
+            }
+        }
+
+        // Copy chat to clipboard
+        function copyChat() {
+            const chatText = chatHistory.map(msg =>
+                `${msg.sender} (${msg.time}): ${msg.text.replace(/<[^>]*>/g, '')}`
+            ).join('\n');
+
+            navigator.clipboard.writeText(chatText).then(() => {
+                // Show temporary notification
+                const originalHTML = document.getElementById('copyChatBtn').innerHTML;
+                document.getElementById('copyChatBtn').innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    document.getElementById('copyChatBtn').innerHTML = originalHTML;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Character count
+        function updateCharCount() {
+            const messageInput = document.getElementById('messageInput');
+            if (!messageInput) return;
+
+            const text = messageInput.value;
+            const count = text.length;
+            const charCountElement = document.getElementById('charCount');
+
+            if (charCountElement) {
+                charCountElement.textContent = count;
+
+                if (count > 900) {
+                    charCountElement.className = 'text-warning';
+                } else if (count > 1000) {
+                    charCountElement.className = 'text-danger';
+                } else {
+                    charCountElement.className = '';
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('TruthGuard Chatbot Initialized');
+            console.log('Gemini Available:', GEMINI_AVAILABLE);
+            console.log('Gemini Model:', GEMINI_MODEL);
+
+            // Set current year
+            const currentYearElement = document.getElementById('currentYear');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+
+            // Set welcome time
+            const welcomeTimeElement = document.getElementById('welcomeTime');
+            if (welcomeTimeElement) {
+                welcomeTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+
+            // Character count for chat input
+            const messageInput = document.getElementById('messageInput');
+            if (messageInput) {
+                messageInput.addEventListener('input', updateCharCount);
+                updateCharCount();
+
+                // Enter key to send (Shift+Enter for new line)
+                messageInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+
+                // Auto-resize textarea
+                messageInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            }
+
+            // Send button
+            const sendButton = document.getElementById('sendButton');
+            if (sendButton) {
+                sendButton.addEventListener('click', sendMessage);
+            }
+
+            // Clear chat button
+            const clearChatBtn = document.getElementById('clearChatBtn');
+            if (clearChatBtn) {
+                clearChatBtn.addEventListener('click', clearChat);
+            }
+
+            // Copy chat button
+            const copyChatBtn = document.getElementById('copyChatBtn');
+            if (copyChatBtn) {
+                copyChatBtn.addEventListener('click', copyChat);
+            }
+
+            // Regenerate button
+            const regenerateBtn = document.getElementById('regenerateBtn');
+            if (regenerateBtn) {
+                regenerateBtn.addEventListener('click', regenerateResponse);
+            }
+
+            // Floating chat button
+            const floatingChatBtn = document.getElementById('floatingChatBtn');
+            if (floatingChatBtn) {
+                floatingChatBtn.addEventListener('click', showChat);
+            }
+
+            // Footer chat link
+            const openChatFromFooter = document.getElementById('openChatFromFooter');
+            if (openChatFromFooter) {
+                openChatFromFooter.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showChat();
+                });
+            }
+
+            // Suggestion chips
+            const suggestionChips = document.querySelectorAll('.suggestion-chip');
+            suggestionChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const message = this.getAttribute('data-message');
+                    if (message) {
+                        const messageInput = document.getElementById('messageInput');
+                        if (messageInput) {
+                            messageInput.value = message;
+                            sendMessage();
+                        }
+                    }
+                });
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (navbar) {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                }
+            });
+
+            // Auto-dismiss alerts
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+
+            // Auto-show chat on first visit (once per session)
+            if (!sessionStorage.getItem('truthguardChatShown')) {
+                setTimeout(() => {
+                    showChat();
+                    sessionStorage.setItem('truthguardChatShown', 'true');
+                }, 3000);
+            }
+
+            console.log('Chatbot initialized successfully!');
+        });
+    </script>
+</body>
+</html>

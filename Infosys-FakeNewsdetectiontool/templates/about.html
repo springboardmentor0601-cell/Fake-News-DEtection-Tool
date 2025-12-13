@@ -1,0 +1,1294 @@
+{% extends "base.html" %}
+
+{% block title %}About - TruthGuard{% endblock %}
+
+{% block content %}
+<!-- Animated Background -->
+<div class="about-container" style="
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    padding: 20px;
+">
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+        <div class="floating-element fe1"></div>
+        <div class="floating-element fe2"></div>
+        <div class="floating-element fe3"></div>
+        <div class="floating-element fe4"></div>
+        <div class="floating-element fe5"></div>
+    </div>
+
+    <div class="container py-5">
+        <!-- Hero Header -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="text-center">
+                    <div class="hero-icon mb-4">
+                        <i class="fas fa-shield-alt fa-4x text-white"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold text-white mb-3">
+                        Welcome to <span class="text-gradient">TruthGuard</span>
+                    </h1>
+                    <p class="lead text-white opacity-75 mb-0" style="max-width: 800px; margin: 0 auto;">
+                        An advanced AI-powered platform dedicated to combating misinformation
+                        and promoting media literacy in the digital age.
+                    </p>
+                    <div class="mt-4">
+                        <span class="badge badge-pulse bg-primary me-2">AI-Powered</span>
+                        <span class="badge badge-pulse bg-success me-2">Real-Time</span>
+                        <span class="badge badge-pulse bg-warning">Secure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission & Vision Cards -->
+        <div class="row mb-5">
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-lg mission-card" style="border-radius: 25px;">
+                    <div class="card-body p-5">
+                        <div class="mission-icon mb-4">
+                            <i class="fas fa-bullseye fa-3x text-white"></i>
+                        </div>
+                        <h3 class="h2 fw-bold text-gradient mb-3">
+                            <i class="fas fa-rocket me-2"></i>Our Mission
+                        </h3>
+                        <div class="mission-content p-4" style="
+                            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                            border-radius: 20px;
+                            border-left: 5px solid #667eea;
+                        ">
+                            <p class="lead mb-0" style="color: #333; line-height: 1.8;">
+                                To empower individuals with the tools and knowledge needed to critically evaluate
+                                information, distinguish fact from fiction, and make informed decisions in an
+                                increasingly complex digital landscape.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-bubble me-3">
+                                    <span class="stat-number">100k+</span>
+                                    <small class="stat-label">Users Protected</small>
+                                </div>
+                                <div class="stat-bubble">
+                                    <span class="stat-number">1M+</span>
+                                    <small class="stat-label">Analyses</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-lg vision-card" style="border-radius: 25px;">
+                    <div class="card-body p-5">
+                        <div class="vision-icon mb-4">
+                            <i class="fas fa-eye fa-3x text-white"></i>
+                        </div>
+                        <h3 class="h2 fw-bold text-gradient-success mb-3">
+                            <i class="fas fa-globe me-2"></i>Our Vision
+                        </h3>
+                        <div class="vision-content p-4" style="
+                            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1) 0%, rgba(17, 153, 142, 0.1) 100%);
+                            border-radius: 20px;
+                            border-left: 5px solid #06d6a0;
+                        ">
+                            <p class="lead mb-0" style="color: #333; line-height: 1.8;">
+                                A world where reliable information is accessible to all, where critical thinking
+                                is nurtured, and where misinformation loses its power to mislead and divide
+                                communities.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center">
+                                <div class="achievement-badge me-3">
+                                    <i class="fas fa-award text-warning"></i>
+                                    <span>Trusted Platform</span>
+                                </div>
+                                <div class="achievement-badge">
+                                    <i class="fas fa-shield-check text-success"></i>
+                                    <span>Verified Technology</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 25px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #667eea, #764ba2);
+                        color: white;
+                        border-radius: 25px 25px 0 0;
+                    ">
+                        <h3 class="mb-0 fw-bold">
+                            <i class="fas fa-cogs me-2"></i>How TruthGuard Works
+                        </h3>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row">
+                            <!-- Step 1 -->
+                            <div class="col-lg-4 mb-4">
+                                <div class="step-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="step-number-wrapper mb-4">
+                                        <div class="step-number" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                            1
+                                        </div>
+                                        <div class="step-ring"></div>
+                                    </div>
+                                    <div class="step-icon mb-3">
+                                        <i class="fas fa-brain fa-3x text-primary"></i>
+                                    </div>
+                                    <h4 class="fw-bold text-gradient mb-3">AI Analysis</h4>
+                                    <p class="text-muted mb-0">
+                                        Our advanced algorithms analyze content using multiple techniques including
+                                        NLP, sentiment analysis, and pattern recognition.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="col-lg-4 mb-4">
+                                <div class="step-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="step-number-wrapper mb-4">
+                                        <div class="step-number" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                                            2
+                                        </div>
+                                        <div class="step-ring"></div>
+                                    </div>
+                                    <div class="step-icon mb-3">
+                                        <i class="fas fa-search fa-3x text-danger"></i>
+                                    </div>
+                                    <h4 class="fw-bold text-gradient-danger mb-3">Pattern Detection</h4>
+                                    <p class="text-muted mb-0">
+                                        We identify common misinformation patterns, emotional manipulation tactics,
+                                        and credibility indicators.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="col-lg-4 mb-4">
+                                <div class="step-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="step-number-wrapper mb-4">
+                                        <div class="step-number" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                            3
+                                        </div>
+                                        <div class="step-ring"></div>
+                                    </div>
+                                    <div class="step-icon mb-3">
+                                        <i class="fas fa-lightbulb fa-3x text-info"></i>
+                                    </div>
+                                    <h4 class="fw-bold text-gradient-info mb-3">Actionable Insights</h4>
+                                    <p class="text-muted mb-0">
+                                        Users receive clear, actionable insights and recommendations
+                                        for verifying information.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 25px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #11998e, #38ef7d);
+                        color: white;
+                        border-radius: 25px 25px 0 0;
+                    ">
+                        <h3 class="mb-0 fw-bold">
+                            <i class="fas fa-microchip me-2"></i>Our Technology Stack
+                        </h3>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row">
+                            <!-- Tech 1 -->
+                            <div class="col-md-3 col-6 mb-4">
+                                <div class="tech-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="tech-icon-wrapper mb-4">
+                                        <div class="tech-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                            <i class="fas fa-brain fa-2x text-white"></i>
+                                        </div>
+                                        <div class="tech-glow"></div>
+                                    </div>
+                                    <h5 class="fw-bold text-gradient mb-2">Machine Learning</h5>
+                                    <p class="small text-muted mb-0">
+                                        Advanced ML models trained on diverse datasets
+                                    </p>
+                                    <div class="tech-tags mt-3">
+                                        <span class="badge bg-primary">TensorFlow</span>
+                                        <span class="badge bg-info">PyTorch</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tech 2 -->
+                            <div class="col-md-3 col-6 mb-4">
+                                <div class="tech-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="tech-icon-wrapper mb-4">
+                                        <div class="tech-icon" style="background: linear-gradient(135deg, #06d6a0, #118ab2);">
+                                            <i class="fas fa-language fa-2x text-white"></i>
+                                        </div>
+                                        <div class="tech-glow"></div>
+                                    </div>
+                                    <h5 class="fw-bold text-gradient-success mb-2">NLP Processing</h5>
+                                    <p class="small text-muted mb-0">
+                                        Natural language understanding and analysis
+                                    </p>
+                                    <div class="tech-tags mt-3">
+                                        <span class="badge bg-success">NLTK</span>
+                                        <span class="badge bg-dark">spaCy</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tech 3 -->
+                            <div class="col-md-3 col-6 mb-4">
+                                <div class="tech-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="tech-icon-wrapper mb-4">
+                                        <div class="tech-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff9e6d);">
+                                            <i class="fas fa-chart-line fa-2x text-white"></i>
+                                        </div>
+                                        <div class="tech-glow"></div>
+                                    </div>
+                                    <h5 class="fw-bold text-gradient-danger mb-2">Sentiment Analysis</h5>
+                                    <p class="small text-muted mb-0">
+                                        Emotional tone and bias detection
+                                    </p>
+                                    <div class="tech-tags mt-3">
+                                        <span class="badge bg-danger">VADER</span>
+                                        <span class="badge bg-warning">BERT</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tech 4 -->
+                            <div class="col-md-3 col-6 mb-4">
+                                <div class="tech-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="tech-icon-wrapper mb-4">
+                                        <div class="tech-icon" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
+                                            <i class="fas fa-shield-alt fa-2x text-white"></i>
+                                        </div>
+                                        <div class="tech-glow"></div>
+                                    </div>
+                                    <h5 class="fw-bold text-gradient-purple mb-2">Security First</h5>
+                                    <p class="small text-muted mb-0">
+                                        Privacy-focused, secure data handling
+                                    </p>
+                                    <div class="tech-tags mt-3">
+                                        <span class="badge bg-purple">AES-256</span>
+                                        <span class="badge bg-secondary">SSL/TLS</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 25px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #f093fb, #f5576c);
+                        color: white;
+                        border-radius: 25px 25px 0 0;
+                    ">
+                        <h3 class="mb-0 fw-bold">
+                            <i class="fas fa-users me-2"></i>Meet Our Team
+                        </h3>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row">
+                            <!-- Team Member 1 -->
+                            <div class="col-lg-4 mb-4">
+                                <div class="team-member-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="team-avatar-wrapper mb-4">
+                                        <div class="team-avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                            <i class="fas fa-user-tie fa-3x text-white"></i>
+                                        </div>
+                                        <div class="avatar-ring"></div>
+                                        <div class="avatar-badge">
+                                            <i class="fas fa-crown text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <h4 class="fw-bold text-gradient mb-2">Manjuladevi</h4>
+                                    <p class="team-role mb-3">AI Research Lead</p>
+                                    <p class="text-muted small mb-4">
+                                        Computer Science and Web Development expert with focus on AI applications
+                                    </p>
+                                    <div class="team-skills">
+                                        <span class="skill-badge">Python</span>
+                                        <span class="skill-badge">ML</span>
+                                        <span class="skill-badge">NLP</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Team Member 2 -->
+                            <div class="col-lg-4 mb-4">
+                                <div class="team-member-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="team-avatar-wrapper mb-4">
+                                        <div class="team-avatar" style="background: linear-gradient(135deg, #ff6b6b, #ff9e6d);">
+                                            <i class="fas fa-robot fa-3x text-white"></i>
+                                        </div>
+                                        <div class="avatar-ring"></div>
+                                        <div class="avatar-badge">
+                                            <i class="fas fa-bolt text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <h4 class="fw-bold text-gradient-danger mb-2">AI Engine</h4>
+                                    <p class="team-role mb-3">Detection System</p>
+                                    <p class="text-muted small mb-4">
+                                        Powered by state-of-the-art machine learning algorithms
+                                    </p>
+                                    <div class="team-skills">
+                                        <span class="skill-badge">TensorFlow</span>
+                                        <span class="skill-badge">PyTorch</span>
+                                        <span class="skill-badge">FastAI</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Team Member 3 -->
+                            <div class="col-lg-4 mb-4">
+                                <div class="team-member-card text-center p-4" style="border-radius: 20px;">
+                                    <div class="team-avatar-wrapper mb-4">
+                                        <div class="team-avatar" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                            <i class="fas fa-code fa-3x text-white"></i>
+                                        </div>
+                                        <div class="avatar-ring"></div>
+                                        <div class="avatar-badge">
+                                            <i class="fas fa-server text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <h4 class="fw-bold text-gradient-info mb-2">API Framework</h4>
+                                    <p class="team-role mb-3">Integration Layer</p>
+                                    <p class="text-muted small mb-4">
+                                        RESTful APIs for seamless integration and scalability
+                                    </p>
+                                    <div class="team-skills">
+                                        <span class="skill-badge">Flask</span>
+                                        <span class="skill-badge">REST</span>
+                                        <span class="skill-badge">WebSockets</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 25px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+                        color: #333;
+                        border-radius: 25px 25px 0 0;
+                    ">
+                        <h3 class="mb-0 fw-bold">
+                            <i class="fas fa-question-circle me-2"></i>Frequently Asked Questions
+                        </h3>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row">
+                            <div class="col-lg-6 mb-4">
+                                <div class="accordion" id="faqAccordion1">
+                                    <!-- FAQ 1 -->
+                                    <div class="accordion-item border-0 mb-3">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button fw-bold" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#faq1"
+                                                    style="
+                                                        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+                                                        border-radius: 15px;
+                                                        color: #667eea;
+                                                    ">
+                                                <i class="fas fa-chart-line text-primary me-3"></i>
+                                                How accurate is TruthGuard?
+                                            </button>
+                                        </h2>
+                                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion1">
+                                            <div class="accordion-body" style="
+                                                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+                                                border-radius: 0 0 15px 15px;
+                                            ">
+                                                <span class="badge bg-primary me-2">95% Accuracy</span>
+                                                TruthGuard achieves approximately 95% accuracy in controlled tests.
+                                                However, no AI system is perfect. We encourage users to use our
+                                                analysis as one tool among many for evaluating information.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FAQ 2 -->
+                                    <div class="accordion-item border-0 mb-3">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#faq2"
+                                                    style="
+                                                        background: linear-gradient(135deg, rgba(6, 214, 160, 0.1), rgba(17, 153, 142, 0.1));
+                                                        border-radius: 15px;
+                                                        color: #06d6a0;
+                                                    ">
+                                                <i class="fas fa-shield-alt text-success me-3"></i>
+                                                Is my data private?
+                                            </button>
+                                        </h2>
+                                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion1">
+                                            <div class="accordion-body" style="
+                                                background: linear-gradient(135deg, rgba(6, 214, 160, 0.05), rgba(17, 153, 142, 0.05));
+                                                border-radius: 0 0 15px 15px;
+                                            ">
+                                                <span class="badge bg-success me-2">Secure</span>
+                                                Yes, we take privacy seriously. We do not share your personal
+                                                information or analysis content with third parties. All data is
+                                                encrypted and stored securely.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-4">
+                                <div class="accordion" id="faqAccordion2">
+                                    <!-- FAQ 3 -->
+                                    <div class="accordion-item border-0 mb-3">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#faq3"
+                                                    style="
+                                                        background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+                                                        border-radius: 15px;
+                                                        color: #4facfe;
+                                                    ">
+                                                <i class="fas fa-globe text-info me-3"></i>
+                                                Can TruthGuard analyze any type of content?
+                                            </button>
+                                        </h2>
+                                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                                            <div class="accordion-body" style="
+                                                background: linear-gradient(135deg, rgba(79, 172, 254, 0.05), rgba(0, 242, 254, 0.05));
+                                                border-radius: 0 0 15px 15px;
+                                            ">
+                                                <span class="badge bg-info me-2">Multi-Format</span>
+                                                TruthGuard is optimized for news articles, social media posts,
+                                                and informational content. It works best with text in English and
+                                                requires at least 20 characters for meaningful analysis.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FAQ 4 -->
+                                    <div class="accordion-item border-0">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#faq4"
+                                                    style="
+                                                        background: linear-gradient(135deg, rgba(161, 140, 209, 0.1), rgba(251, 194, 235, 0.1));
+                                                        border-radius: 15px;
+                                                        color: #a18cd1;
+                                                    ">
+                                                <i class="fas fa-gift text-purple me-3"></i>
+                                                Is TruthGuard free to use?
+                                            </button>
+                                        </h2>
+                                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                                            <div class="accordion-body" style="
+                                                background: linear-gradient(135deg, rgba(161, 140, 209, 0.05), rgba(251, 194, 235, 0.05));
+                                                border-radius: 0 0 15px 15px;
+                                            ">
+                                                <span class="badge bg-purple me-2">Free Forever</span>
+                                                Yes, TruthGuard is completely free for individual users.
+                                                We believe fighting misinformation should be accessible to everyone.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 25px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="text-center fw-bold text-gradient mb-5">
+                            <i class="fas fa-chart-bar me-2"></i>TruthGuard By The Numbers
+                        </h3>
+                        <div class="row text-center">
+                            <div class="col-md-3 mb-4">
+                                <div class="stat-circle" style="border-color: #667eea;">
+                                    <span class="stat-number" style="color: #667eea;">100k+</span>
+                                </div>
+                                <div class="stat-label">Users Protected</div>
+                                <small class="text-muted">Active users worldwide</small>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="stat-circle" style="border-color: #06d6a0;">
+                                    <span class="stat-number" style="color: #06d6a0;">1M+</span>
+                                </div>
+                                <div class="stat-label">Analyses</div>
+                                <small class="text-muted">Content verified</small>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="stat-circle" style="border-color: #ff6b6b;">
+                                    <span class="stat-number" style="color: #ff6b6b;">95%</span>
+                                </div>
+                                <div class="stat-label">Accuracy</div>
+                                <small class="text-muted">Detection rate</small>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="stat-circle" style="border-color: #4facfe;">
+                                    <span class="stat-number" style="color: #4facfe;">99.9%</span>
+                                </div>
+                                <div class="stat-label">Uptime</div>
+                                <small class="text-muted">Reliable service</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Get Started CTA -->
+<div class="cta-section py-5" style="
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">
+            Ready to Fight Misinformation?
+        </h2>
+        <p class="lead mb-5" style="max-width: 600px; margin: 0 auto;">
+            Join thousands of users who trust TruthGuard to verify information and promote truth.
+        </p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('analyze') }}" class="btn btn-gradient-primary btn-lg px-5 py-3 me-3">
+                <i class="fas fa-play-circle me-2"></i>Start Analyzing
+            </a>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: gradientBG 8s ease infinite;
+}
+
+.text-gradient-success {
+    background: linear-gradient(90deg, #06d6a0, #118ab2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-danger {
+    background: linear-gradient(90deg, #ff6b6b, #ff9e6d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-info {
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+    background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Floating Elements */
+.floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-element {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: float 6s ease-in-out infinite;
+}
+
+.fe1 { width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s; }
+.fe2 { width: 150px; height: 150px; bottom: 20%; right: 10%; animation-delay: 2s; }
+.fe3 { width: 80px; height: 80px; top: 60%; left: 20%; animation-delay: 4s; }
+.fe4 { width: 120px; height: 120px; top: 30%; right: 20%; animation-delay: 1s; }
+.fe5 { width: 90px; height: 90px; bottom: 10%; left: 15%; animation-delay: 3s; }
+
+/* Hero Icon */
+.hero-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Badge Pulse */
+.badge-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Mission & Vision Icons */
+.mission-icon, .vision-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.vision-icon {
+    background: linear-gradient(135deg, #06d6a0, #118ab2);
+}
+
+/* Stat Bubbles */
+.stat-bubble {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 15px 20px;
+    border-radius: 15px;
+    min-width: 120px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Achievement Badges */
+.achievement-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.achievement-badge i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+/* Step Cards */
+.step-card {
+    transition: all 0.3s ease;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+}
+
+.step-number-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.step-number {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.step-ring {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 3px solid;
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+}
+
+.step-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Tech Cards */
+.tech-card {
+    transition: all 0.3s ease;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.tech-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.tech-icon-wrapper {
+    position: relative;
+}
+
+.tech-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.tech-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: inherit;
+    border-radius: 50%;
+    filter: blur(15px);
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.tech-tags .badge {
+    margin: 0 2px;
+    font-size: 0.7rem;
+    padding: 5px 10px;
+}
+
+/* Team Cards */
+.team-member-card {
+    transition: all 0.3s ease;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.team-member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.team-avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.team-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.avatar-ring {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 3px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+}
+
+.avatar-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.team-role {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.skill-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    border-radius: 20px;
+    margin: 0 2px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* FAQ Accordion */
+.accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2)) !important;
+    border-bottom: none !important;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+.accordion-body {
+    padding: 20px;
+}
+
+/* Stats Circles */
+.stat-circle {
+    width: 150px;
+    height: 150px;
+    border: 5px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    position: relative;
+}
+
+.stat-circle::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 3px solid;
+    border-radius: 50%;
+    opacity: 0.3;
+}
+
+.stat-circle .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* CTA Section */
+.cta-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg,
+        rgba(102, 126, 234, 0.1) 0%,
+        rgba(118, 75, 162, 0.1) 25%,
+        rgba(6, 214, 160, 0.1) 50%,
+        rgba(255, 107, 107, 0.1) 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
+
+.cta-buttons {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-gradient-primary {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-gradient-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stat-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .stat-circle .stat-number {
+        font-size: 2rem;
+    }
+
+    .team-avatar-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .hero-icon {
+        font-size: 3rem;
+    }
+
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+/* Card Hover Effects */
+.mission-card, .vision-card, .step-card, .tech-card, .team-member-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mission-card:hover, .vision-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+/* Background Animation for Cards */
+.mission-card::before, .vision-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-radius: 25px 25px 0 0;
+    background: linear-gradient(90deg,
+        #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ff6b6b 100%);
+    background-size: 400% 100%;
+    animation: shimmer 2s linear infinite;
+}
+
+/* Section Spacing */
+.row {
+    position: relative;
+    z-index: 2;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Initialize tooltips
+    $('[data-bs-toggle="tooltip"]').tooltip();
+
+    // Add scroll animations
+    function animateOnScroll() {
+        $('.card').each(function() {
+            const elementTop = $(this).offset().top;
+            const elementBottom = elementTop + $(this).outerHeight();
+            const viewportTop = $(window).scrollTop();
+            const viewportBottom = viewportTop + $(window).height();
+
+            if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                $(this).addClass('animate__animated animate__fadeInUp');
+            }
+        });
+    }
+
+    // Initial animation
+    setTimeout(() => {
+        $('.card').addClass('animate__animated animate__fadeInUp');
+    }, 300);
+
+    // Scroll animation
+    $(window).scroll(animateOnScroll);
+    animateOnScroll(); // Initial check
+
+    // Accordion hover effects
+    $('.accordion-button').hover(
+        function() {
+            $(this).css('transform', 'translateY(-2px)');
+        },
+        function() {
+            $(this).css('transform', 'translateY(0)');
+        }
+    );
+
+    // Stats counter animation
+    function animateStats() {
+        $('.stat-number').each(function() {
+            const $this = $(this);
+            const finalValue = parseInt($this.text().replace(/[^0-9]/g, ''));
+            const duration = 2000;
+            const increment = finalValue / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= finalValue) {
+                    clearInterval(timer);
+                    current = finalValue;
+                }
+                $this.text(Math.floor(current) + ($this.text().includes('%') ? '%' : '+'));
+            }, 16);
+        });
+    }
+
+    // Trigger stats animation when in view
+    function checkStatsView() {
+        const statsSection = $('.stat-circle').first();
+        if (statsSection.length) {
+            const top = statsSection.offset().top;
+            const bottom = top + statsSection.outerHeight();
+            const viewTop = $(window).scrollTop();
+            const viewBottom = viewTop + $(window).height();
+
+            if (bottom > viewTop && top < viewBottom) {
+                animateStats();
+                $(window).off('scroll', checkStatsView);
+            }
+        }
+    }
+
+    $(window).scroll(checkStatsView);
+    checkStatsView();
+
+    // Team card hover effects
+    $('.team-member-card').hover(
+        function() {
+            const avatarRing = $(this).find('.avatar-ring');
+            avatarRing.css('animation-duration', '5s');
+        },
+        function() {
+            const avatarRing = $(this).find('.avatar-ring');
+            avatarRing.css('animation-duration', '10s');
+        }
+    );
+
+    // Tech card hover effects
+    $('.tech-card').hover(
+        function() {
+            const techGlow = $(this).find('.tech-glow');
+            techGlow.css({
+                'opacity': '0.7',
+                'filter': 'blur(20px)'
+            });
+        },
+        function() {
+            const techGlow = $(this).find('.tech-glow');
+            techGlow.css({
+                'opacity': '0.5',
+                'filter': 'blur(15px)'
+            });
+        }
+    );
+
+    // Step card number animation
+    $('.step-card').hover(
+        function() {
+            const stepNumber = $(this).find('.step-number');
+            stepNumber.css('transform', 'scale(1.1) rotate(10deg)');
+        },
+        function() {
+            const stepNumber = $(this).find('.step-number');
+            stepNumber.css('transform', 'scale(1) rotate(0deg)');
+        }
+    );
+
+    // Mission/Vision card animation
+    $('.mission-card, .vision-card').hover(
+        function() {
+            $(this).css({
+                'transform': 'translateY(-10px)',
+                'box-shadow': '0 25px 50px rgba(0,0,0,0.15)'
+            });
+        },
+        function() {
+            $(this).css({
+                'transform': 'translateY(0)',
+                'box-shadow': '0 10px 30px rgba(0,0,0,0.1)'
+            });
+        }
+    );
+
+    // FAQ accordion animation
+    $('.accordion-button').on('click', function() {
+        const icon = $(this).find('i');
+        icon.css('transform', 'rotate(90deg)');
+
+        setTimeout(() => {
+            icon.css('transform', 'rotate(0deg)');
+        }, 300);
+    });
+
+    // Add ripple effect to buttons
+    $('.btn-gradient-primary').on('click', function(e) {
+        const $this = $(this);
+        const offset = $this.offset();
+        const x = e.pageX - offset.left;
+        const y = e.pageY - offset.top;
+
+        const ripple = $('<span class="ripple"></span>');
+        ripple.css({
+            top: y,
+            left: x,
+            background: 'rgba(255,255,255,0.3)'
+        });
+
+        $this.append(ripple);
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+
+    // Floating elements interaction
+    $(document).on('mousemove', function(e) {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+
+        $('.floating-element').each(function(index) {
+            const speed = 0.5 + (index * 0.1);
+            const x = (mouseX * speed * 100) - 50;
+            const y = (mouseY * speed * 100) - 50;
+
+            $(this).css({
+                'transform': `translate(${x}px, ${y}px)`
+            });
+        });
+    });
+
+    // Page load animation
+    setTimeout(() => {
+        $('body').addClass('loaded');
+    }, 500);
+});
+
+// Add ripple effect styles
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}
