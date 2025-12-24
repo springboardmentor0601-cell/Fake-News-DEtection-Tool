@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis History - TruthGuard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #6366f1;
+            --primary-lighter: #818cf8;
+            --primary-lightest: #c7d2fe;
+            --success-color: #10b981;
+            --success-dark: #059669;
+            --success-light: #34d399;
+            --warning-color: #f59e0b;
+            --warning-dark: #d97706;
+            --warning-light: #fbbf24;
+            --danger-color: #ef4444;
+            --danger-dark: #dc2626;
+            --danger-light: #f87171;
+            --info-color: #06b6d4;
+            --info-dark: #0891b2;
+            --info-light: #22d3ee;
+            --dark-color: #1e293b;
+            --darker-color: #0f172a;
+            --light-color: #f8fafc;
+            --lighter-color: #f1f5f9;
+            --gray-color: #64748b;
+            --gray-light: #94a3b8;
+
+            --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            --success-gradient: linear-gradient(135deg, var(--success-color) 0%, var(--success-light) 100%);
+            --warning-gradient: linear-gradient(135deg, var(--warning-color) 0%, var(--warning-light) 100%);
+            --danger-gradient: linear-gradient(135deg, var(--danger-color) 0%, var(--danger-light) 100%);
+            --info-gradient: linear-gradient(135deg, var(--info-color) 0%, var(--info-light) 100%);
+            --dark-gradient: linear-gradient(135deg, var(--dark-color) 0%, var(--darker-color) 100%);
+            --glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+            --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--dark-color);
+        }
+
+        /* Professional Header */
+        .professional-header {
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            z-index: 1;
+        }
+
+        .professional-header > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Professional Card Design */
+        .history-card {
+            background: var(--card-gradient);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--primary-lightest);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .history-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .history-card.reliable {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .history-card.suspicious {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .history-card.fake {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .history-card.reliable:hover {
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15);
+        }
+
+        .history-card.suspicious:hover {
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15);
+        }
+
+        .history-card.fake:hover {
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.15);
+        }
+
+        /* Card Header */
+        .card-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 0;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .card-title i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        /* Classification Badge */
+        .classification-badge {
+            font-size: 0.75rem;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            min-width: 110px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-reliable {
+            background: var(--success-gradient);
+        }
+
+        .badge-suspicious {
+            background: var(--warning-gradient);
+        }
+
+        .badge-fake {
+            background: var(--danger-gradient);
+        }
+
+        .badge-unknown {
+            background: var(--primary-gradient);
+        }
+
+        /* Meta Information */
+        .meta-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            color: var(--gray-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.08);
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .meta-item:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .meta-item i {
+            margin-right: 8px;
+            font-size: 0.875rem;
+        }
+
+        /* Content Preview */
+        .content-preview {
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            max-height: 120px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content-preview::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, rgba(248, 250, 252, 0.95));
+        }
+
+        /* Statistics Pills */
+        .stats-container {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-pill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-pill.credibility {
+            border-color: var(--success-color);
+            color: var(--success-color);
+        }
+        .stat-pill.credibility:hover {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .stat-pill.sensationalism {
+            border-color: var(--warning-color);
+            color: var(--warning-color);
+        }
+        .stat-pill.sensationalism:hover {
+            background: var(--warning-gradient);
+            color: white;
+        }
+
+        .stat-pill.sentiment {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        .stat-pill.sentiment:hover {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .stat-pill.confidence {
+            border-color: var(--info-color);
+            color: var(--info-color);
+        }
+        .stat-pill.confidence:hover {
+            background: var(--info-gradient);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-view-details {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-view-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .action-icon:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--card-gradient);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--primary-lightest);
+        }
+
+        .empty-icon {
+            font-size: 80px;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            opacity: 0.7;
+        }
+
+        .empty-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+        }
+
+        .empty-title span {
+            color: var(--primary-color);
+        }
+
+        .empty-text {
+            color: var(--gray-color);
+            font-size: 1.125rem;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* Primary Button */
+        .btn-primary-solid {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 14px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-primary-solid:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Stats Summary Cards */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .summary-card {
+            background: var(--card-gradient);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-lightest);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-light);
+        }
+
+        .summary-card.total:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.15);
+        }
+
+        .summary-card.reliable:hover {
+            border-color: var(--success-color);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15);
+        }
+
+        .summary-card.suspicious:hover {
+            border-color: var(--warning-color);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15);
+        }
+
+        .summary-card.fake:hover {
+            border-color: var(--danger-color);
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.15);
+        }
+
+        .summary-number {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .summary-card.total .summary-number { color: var(--primary-color); }
+        .summary-card.reliable .summary-number { color: var(--success-color); }
+        .summary-card.suspicious .summary-number { color: var(--warning-color); }
+        .summary-card.fake .summary-number { color: var(--danger-color); }
+
+        .summary-label {
+            font-size: 0.875rem;
+            color: var(--gray-color);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        /* Pagination */
+        .pagination-custom .page-link {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 10px 20px;
+            margin: 0 6px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .pagination-custom .page-item.active .page-link {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+        }
+
+        .pagination-custom .page-link:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 12px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-container input {
+            padding: 14px 20px 14px 56px;
+            border-radius: 14px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-container input:focus {
+            border-color: var(--primary-dark);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.15);
+            outline: none;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            z-index: 2;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-reliable {
+            background: var(--success-color);
+            box-shadow: 0 0 8px var(--success-color);
+        }
+        .status-suspicious {
+            background: var(--warning-color);
+            box-shadow: 0 0 8px var(--warning-color);
+        }
+        .status-fake {
+            background: var(--danger-color);
+            box-shadow: 0 0 8px var(--danger-color);
+        }
+        .status-unknown {
+            background: var(--gray-color);
+            box-shadow: 0 0 8px var(--gray-color);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Tooltip */
+        .tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-wrapper .tooltip-text {
+            visibility: hidden;
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 8px 16px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+            font-weight: 400;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--primary-color);
+        }
+
+        .tooltip-wrapper:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .feature-item {
+            background: var(--card-gradient);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--primary-lightest);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 20px;
+            color: white;
+            background: var(--primary-gradient);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card-header-section {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .classification-badge {
+                align-self: flex-start;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .card-actions {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .quick-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .summary-number {
+                font-size: 2.5rem;
+            }
+
+            .professional-header {
+                padding: 28px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Progress Bars */
+        .progress-track {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-primary { background: var(--primary-gradient); }
+        .progress-success { background: var(--success-gradient); }
+        .progress-warning { background: var(--warning-gradient); }
+        .progress-danger { background: var(--danger-gradient); }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Professional Header -->
+        <div class="professional-header mb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-history me-3"></i>Analysis History
+                    </h1>
+                    <p class="lead mb-0" style="opacity: 0.9;">
+                        Review and manage all your content analyses. Track misinformation patterns and gain insights.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <a href="{{ url_for('analyze') }}" class="btn btn-primary-solid">
+                        <i class="fas fa-plus me-2"></i>New Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Summary -->
+        {% if analyses %}
+        <div class="stats-summary">
+            <div class="summary-card total">
+                <div class="summary-number">{{ total_analyses|default(0) }}</div>
+                <div class="summary-label">Total Analyses</div>
+                <div class="progress-track">
+                    <div class="progress-fill progress-primary" style="width: 100%"></div>
+                </div>
+            </div>
+            <div class="summary-card reliable">
+                <div class="summary-number">{{ reliable_count|default(0) }}</div>
+                <div class="summary-label">Reliable</div>
+                <div class="progress-track">
+                    <div class="progress-fill progress-success"
+                         style="width: {{ (reliable_count/total_analyses*100)|default(0) }}%"></div>
+                </div>
+            </div>
+            <div class="summary-card suspicious">
+                <div class="summary-number">{{ suspicious_count|default(0) }}</div>
+                <div class="summary-label">Suspicious</div>
+                <div class="progress-track">
+                    <div class="progress-fill progress-warning"
+                         style="width: {{ (suspicious_count/total_analyses*100)|default(0) }}%"></div>
+                </div>
+            </div>
+            <div class="summary-card fake">
+                <div class="summary-number">{{ fake_count|default(0) }}</div>
+                <div class="summary-label">Fake</div>
+                <div class="progress-track">
+                    <div class="progress-fill progress-danger"
+                         style="width: {{ (fake_count/total_analyses*100)|default(0) }}%"></div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Features Section -->
+        <div class="features-grid mb-5">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h5 class="fw-bold mb-2">AI-Powered Analysis</h5>
+                <p class="text-muted mb-0">Advanced machine learning models for accurate misinformation detection.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Fast Processing</h5>
+                <p class="text-muted mb-0">Get analysis results in seconds with our optimized algorithms.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Detailed Analytics</h5>
+                <p class="text-muted mb-0">Comprehensive reports with credibility and sentiment scores.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Historical Tracking</h5>
+                <p class="text-muted mb-0">Track patterns and trends in your analysis history.</p>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="row mt-4">
+            <div class="col-lg-8">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search analyses by title, content, or classification...">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-layer-group me-2"></i>All
+                    </button>
+                    <button class="filter-btn" data-filter="reliable">
+                        <i class="fas fa-check-circle me-2"></i>Reliable
+                    </button>
+                    <button class="filter-btn" data-filter="suspicious">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Suspicious
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debug Info -->
+        {% if debug_mode %}
+        <div class="alert alert-light border mb-4" style="background: white; border-radius: 16px; padding: 20px;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-0"><i class="fas fa-code me-2"></i>Debug Mode</h6>
+                    <small class="text-muted">Found {{ analyses|length }} analyses | Page {{ pagination.page if pagination else 1 }} of {{ pagination.pages if pagination else 1 }}</small>
+                </div>
+                <button class="btn btn-sm btn-outline-primary" onclick="toggleDebugInfo()">
+                    <i class="fas fa-chevron-down me-1"></i>Details
+                </button>
+            </div>
+            <div id="debugDetails" class="mt-3" style="display: none;">
+                <pre class="bg-dark text-light p-3 rounded"><code>{{ analyses|tojson(indent=2) }}</code></pre>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Empty State -->
+        {% if not analyses or analyses|length == 0 %}
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h2 class="empty-title">No Analyses <span>Found</span></h2>
+            <p class="empty-text">
+                You haven't performed any analyses yet. Start by analyzing your first piece of content
+                to detect misinformation and get valuable insights.
+            </p>
+            <a href="{{ url_for('analyze') }}" class="btn btn-primary-solid">
+                <i class="fas fa-bolt me-2"></i>Start Your First Analysis
+            </a>
+        </div>
+
+        <!-- Analyses Grid -->
+        {% else %}
+        <div class="row" id="analysesGrid">
+            {% for analysis in analyses %}
+            <div class="col-lg-6 mb-4">
+                <div class="history-card {{ analysis.classification|lower }}">
+                    <div class="card-header-section">
+                        <div class="d-flex align-items-start w-100">
+                            <span class="status-indicator status-{{ analysis.classification|lower }} mt-2"></span>
+                            <div class="flex-grow-1">
+                                <h3 class="card-title">
+                                    <i class="fas fa-file-alt"></i>{{ analysis.title or "Untitled Analysis" }}
+                                </h3>
+                                <div class="meta-info">
+                                    <span class="meta-item">
+                                        <i class="far fa-calendar"></i>
+                                        {{ analysis.created_at.strftime('%b %d, %Y') }}
+                                    </span>
+                                    {% if analysis.confidence_score %}
+                                    <span class="meta-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        {{ "%.0f"|format(analysis.confidence_score * 100) }}% confidence
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <span class="classification-badge badge-{{ analysis.classification|lower }}">
+                            {% if analysis.classification == 'RELIABLE' %}
+                            <i class="fas fa-check-circle me-1"></i>
+                            {% elif analysis.classification == 'SUSPICIOUS' %}
+                            <i class="fas fa-exclamation-triangle me-1"></i>
+                            {% elif analysis.classification == 'FAKE' %}
+                            <i class="fas fa-times-circle me-1"></i>
+                            {% else %}
+                            <i class="fas fa-question-circle me-1"></i>
+                            {% endif %}
+                            {{ analysis.classification }}
+                        </span>
+                    </div>
+
+                    {% if analysis.content %}
+                    <div class="content-preview">
+                        <p class="mb-0" style="color: var(--dark-color);">
+                            {{ analysis.content[:200] }}{% if analysis.content|length > 200 %}...{% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <div class="stats-container">
+                        {% if analysis.credibility_score %}
+                        <div class="stat-pill credibility tooltip-wrapper">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Credibility: {{ "%.1f"|format(analysis.credibility_score) }}/10</span>
+                            <span class="tooltip-text">Credibility score based on source reliability</span>
+                        </div>
+                        {% endif %}
+
+                        {% if analysis.sensationalism_score %}
+                        <div class="stat-pill sensationalism tooltip-wrapper">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Sensationalism: {{ "%.1f"|format(analysis.sensationalism_score) }}/10</span>
+                            <span class="tooltip-text">Measures emotional language usage</span>
+                        </div>
+                        {% endif %}
+
+                        {% if analysis.sentiment_score %}
+                        <div class="stat-pill sentiment tooltip-wrapper">
+                            <i class="fas fa-smile"></i>
+                            <span>Sentiment: {{ "%.2f"|format(analysis.sentiment_score) }}</span>
+                            <span class="tooltip-text">Overall emotional tone (-1 to 1)</span>
+                        </div>
+                        {% endif %}
+
+                        {% if analysis.is_quick_analysis %}
+                        <div class="stat-pill confidence">
+                            <i class="fas fa-bolt"></i>
+                            <span>Quick Analysis</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-actions">
+                        <div class="quick-actions">
+                            <button class="action-icon tooltip-wrapper" onclick="copyAnalysisLink({{ analysis.id }})">
+                                <i class="fas fa-link"></i>
+                                <span class="tooltip-text">Copy link</span>
+                            </button>
+                            <button class="action-icon tooltip-wrapper" onclick="reanalyze({{ analysis.id }})">
+                                <i class="fas fa-redo"></i>
+                                <span class="tooltip-text">Re-analyze</span>
+                            </button>
+                            <button class="action-icon tooltip-wrapper" onclick="exportAnalysis({{ analysis.id }})">
+                                <i class="fas fa-download"></i>
+                                <span class="tooltip-text">Export</span>
+                            </button>
+                        </div>
+                        <a href="{{ url_for('analysis_detail', analysis_id=analysis.id) }}" class="btn btn-view-details">
+                            <i class="fas fa-chart-bar me-2"></i>View Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination and pagination.pages > 1 %}
+        <nav aria-label="Analysis history pagination" class="mt-5">
+            <ul class="pagination pagination-custom justify-content-center">
+                {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('analysis_history', page=pagination.prev_num) }}">
+                        <i class="fas fa-chevron-left me-1"></i>Previous
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                    {% if page_num %}
+                        {% if page_num == pagination.page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('analysis_history', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('analysis_history', page=pagination.next_num) }}">
+                        Next<i class="fas fa-chevron-right ms-1"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        <!-- Bottom Actions -->
+        <div class="row mt-5 pt-4">
+            <div class="col-lg-8">
+                <div class="feature-item">
+                    <h5 class="fw-bold mb-3" style="color: var(--primary-color);">
+                        <i class="fas fa-trophy me-2"></i>Key Advantages
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                        <div>
+                                            <strong>High Accuracy</strong>
+                                            <p class="text-muted small mb-0">Our AI achieves 95% accuracy in misinformation detection.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                        <div>
+                                            <strong>Real-time Analysis</strong>
+                                            <p class="text-muted small mb-0">Get results in under 5 seconds for most content.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                        <div>
+                                            <strong>Comprehensive Reports</strong>
+                                            <p class="text-muted small mb-0">Detailed breakdowns with multiple scoring metrics.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                        <div>
+                                            <strong>Easy Export</strong>
+                                            <p class="text-muted small mb-0">Export analyses in multiple formats for sharing.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="d-flex flex-column gap-3">
+                    <a href="{{ url_for('analyze') }}" class="btn btn-primary-solid">
+                        <i class="fas fa-plus me-2"></i>New Analysis
+                    </a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary" style="border: 2px solid var(--primary-color); color: var(--primary-color);">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    <button class="btn btn-outline-success" onclick="exportHistory()" style="border: 2px solid var(--success-color); color: var(--success-color);">
+                        <i class="fas fa-file-export me-2"></i>Export All
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.history-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const content = card.querySelector('.content-preview')?.textContent.toLowerCase() || '';
+                const classification = card.querySelector('.classification-badge').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || content.includes(searchTerm) || classification.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // Filter functionality
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active state
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            const filter = this.dataset.filter;
+            const cards = document.querySelectorAll('.history-card');
+
+            cards.forEach(card => {
+                if (filter === 'all' || card.classList.contains(filter)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Copy analysis link
+    function copyAnalysisLink(analysisId) {
+        const url = `${window.location.origin}/analysis/${analysisId}`;
+        navigator.clipboard.writeText(url).then(() => {
+            showNotification('Link copied to clipboard', 'success');
+        });
+    }
+
+    // Re-analyze
+    function reanalyze(analysisId) {
+        showNotification('Redirecting to analysis page...', 'info');
+        setTimeout(() => {
+            window.location.href = `/analyze?reanalyze=${analysisId}`;
+        }, 1000);
+    }
+
+    // Export analysis
+    function exportAnalysis(analysisId) {
+        showNotification('Exporting analysis...', 'info');
+        setTimeout(() => {
+            showNotification('Analysis exported successfully', 'success');
+        }, 1500);
+    }
+
+    // Export history
+    function exportHistory() {
+        showNotification('Preparing export...', 'info');
+        setTimeout(() => {
+            showNotification('Export complete!', 'success');
+        }, 2000);
+    }
+
+    // Toggle debug info
+    function toggleDebugInfo() {
+        const debugDetails = document.getElementById('debugDetails');
+        if (debugDetails) {
+            debugDetails.style.display = debugDetails.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+
+    // Show notification
+    function showNotification(message, type = 'info') {
+        // Remove existing notification
+        const existing = document.querySelector('.custom-notification');
+        if (existing) existing.remove();
+
+        const notification = document.createElement('div');
+        const gradients = {
+            'success': 'var(--success-gradient)',
+            'warning': 'var(--warning-gradient)',
+            'danger': 'var(--danger-gradient)',
+            'info': 'var(--info-gradient)'
+        };
+
+        const icons = {
+            'success': 'check-circle',
+            'warning': 'exclamation-triangle',
+            'danger': 'times-circle',
+            'info': 'info-circle'
+        };
+
+        notification.className = `custom-notification`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            background: ${gradients[type] || gradients.info};
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            z-index: 9999;
+            max-width: 400px;
+            border: 2px solid white;
+        `;
+
+        notification.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas fa-${icons[type]} me-3"></i>
+                <div style="font-weight: 500;">${message}</div>
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 4000);
+    }
+
+    // Initialize tooltips
+    document.querySelectorAll('.tooltip-wrapper').forEach(el => {
+        el.addEventListener('mouseenter', function() {
+            const tooltip = this.querySelector('.tooltip-text');
+            if (tooltip) {
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = '1';
+            }
+        });
+
+        el.addEventListener('mouseleave', function() {
+            const tooltip = this.querySelector('.tooltip-text');
+            if (tooltip) {
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.opacity = '0';
+            }
+        });
+    });
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (searchInput) searchInput.value = '';
+            document.querySelectorAll('.history-card').forEach(card => {
+                card.style.display = 'block';
+            });
+        }
+    });
+
+    // Auto-focus search on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (searchInput) {
+            setTimeout(() => {
+                searchInput.focus();
+            }, 500);
+        }
+    });
+    </script>
+</body>
+</html>

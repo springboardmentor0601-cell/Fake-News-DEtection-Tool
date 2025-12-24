@@ -1,0 +1,651 @@
+{% extends "base.html" %}
+
+{% block title %}TruthGuard - Fight Misinformation{% endblock %}
+
+{% block content %}
+<!-- Animated Hero Section -->
+<div class="hero-section text-center py-5 mb-5 rounded-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); position: relative; overflow: hidden; min-height: 600px; display: flex; align-items: center;">
+    <!-- Animated background elements -->
+    <div class="hero-background-animation" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+        <div class="floating-shape" style="position: absolute; top: 10%; left: 5%; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.1); animation: float 15s infinite ease-in-out;"></div>
+        <div class="floating-shape" style="position: absolute; bottom: 15%; right: 10%; width: 150px; height: 150px; border-radius: 50%; background: rgba(255,255,255,0.08); animation: float 18s infinite ease-in-out reverse;"></div>
+        <div class="floating-shape" style="position: absolute; top: 40%; right: 20%; width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.05); animation: float 12s infinite ease-in-out;"></div>
+    </div>
+
+    <div class="container py-5 position-relative" style="z-index: 2;">
+        <!-- Animated shield icon -->
+        <div class="hero-icon mb-4" style="display: inline-block; animation: pulse 2s infinite;">
+            <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 5px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-shield-alt fa-4x" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+            </div>
+        </div>
+
+        <h1 class="display-4 fw-bold text-white mb-4 animate-pop-in" style="animation-delay: 0.3s;">
+            TruthGuard
+        </h1>
+        <p class="lead text-white mb-4 animate-pop-in" style="font-size: 1.5rem; animation-delay: 0.5s;">
+            Advanced AI-powered platform to detect fake news and misinformation
+        </p>
+        <p class="text-white mb-5 animate-pop-in" style="max-width: 800px; margin: 0 auto; animation-delay: 0.7s;">
+            TruthGuard uses cutting-edge machine learning and natural language processing
+            to analyze news content, identify misinformation patterns, and help you make
+            informed decisions about the information you consume.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap animate-pop-in" style="animation-delay: 0.9s;">
+            {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('register') }}" class="btn btn-light btn-lg shadow-lg animate-button" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: #764ba2; border: none;">
+                <i class="fas fa-user-plus me-2"></i> Get Started Free
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg shadow animate-button" style="border: 2px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px);">
+                <i class="fas fa-sign-in-alt me-2"></i> Login
+            </a>
+            {% else %}
+            <a href="{{ url_for('analyze') }}" class="btn btn-light btn-lg shadow-lg animate-button" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: #764ba2; border: none;">
+                <i class="fas fa-search me-2"></i> Analyze Content
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light btn-lg shadow animate-button" style="border: 2px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px);">
+                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+            </a>
+            {% endif %}
+            <button class="btn btn-success btn-lg shadow-lg animate-button" onclick="openChatbot()" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); border: none; animation-delay: 1.1s;">
+                <i class="fas fa-robot me-2"></i> Try TruthBot
+            </button>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator mt-5" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);">
+            <div class="mouse" style="width: 30px; height: 50px; border: 2px solid rgba(255,255,255,0.7); border-radius: 20px; position: relative;">
+                <div class="wheel" style="width: 4px; height: 10px; background: rgba(255,255,255,0.9); border-radius: 2px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: scrollWheel 2s infinite;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Animated Features -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-lg hover-lift animate-feature" style="border-top: 5px solid #667eea; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); animation-delay: 0.1s;">
+            <div class="card-body text-center p-5">
+                <div class="feature-icon mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; animation: iconFloat 3s infinite ease-in-out;">
+                    <i class="fas fa-robot fa-3x text-white"></i>
+                </div>
+                <h4 class="card-title fw-bold text-primary">AI-Powered Analysis</h4>
+                <p class="card-text text-muted">Advanced machine learning algorithms analyze content for misinformation patterns and reliability indicators.</p>
+                <div class="feature-highlight mt-3" style="width: 100%; height: 4px; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 2px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-lg hover-lift animate-feature" style="border-top: 5px solid #4facfe; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); animation-delay: 0.3s;">
+            <div class="card-body text-center p-5">
+                <div class="feature-icon mb-4" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; animation: iconFloat 3s infinite ease-in-out; animation-delay: 0.5s;">
+                    <i class="fas fa-comments fa-3x text-white"></i>
+                </div>
+                <h4 class="card-title fw-bold text-info">TruthBot Assistant</h4>
+                <p class="card-text text-muted">Interactive AI chatbot helps answer your questions about information credibility and fact-checking.</p>
+                <div class="feature-highlight mt-3" style="width: 100%; height: 4px; background: linear-gradient(90deg, #4facfe, #00f2fe); border-radius: 2px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-lg hover-lift animate-feature" style="border-top: 5px solid #13c276; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); animation-delay: 0.5s;">
+            <div class="card-body text-center p-5">
+                <div class="feature-icon mb-4" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; animation: iconFloat 3s infinite ease-in-out; animation-delay: 1s;">
+                    <i class="fas fa-chart-bar fa-3x text-white"></i>
+                </div>
+                <h4 class="card-title fw-bold text-success">Detailed Reports</h4>
+                <p class="card-text text-muted">Get comprehensive analysis with confidence scores, key findings, and actionable recommendations.</p>
+                <div class="feature-highlight mt-3" style="width: 100%; height: 4px; background: linear-gradient(90deg, #13c276, #11998e); border-radius: 2px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Animated How It Works -->
+<div class="card mb-5 border-0 shadow-lg animate-slide-up" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
+    <div class="card-header text-white border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; overflow: hidden;">
+        <div class="header-shine" style="position: absolute; top: -10px; left: -100%; width: 100px; height: 200%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 3s infinite;"></div>
+        <h3 class="mb-0"><i class="fas fa-play-circle me-2"></i> How It Works</h3>
+    </div>
+    <div class="card-body p-4">
+        <div class="row text-center">
+            <div class="col-md-2 mb-4">
+                <div class="step-container">
+                    <div class="step-number mb-3 animate-step" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">1</div>
+                    <h5 class="fw-bold text-primary">Paste Content</h5>
+                    <p class="text-muted">Copy and paste news articles or any text you want to verify.</p>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4">
+                <div class="step-container">
+                    <div class="step-number mb-3 animate-step" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); animation-delay: 0.2s;">2</div>
+                    <h5 class="fw-bold text-danger">AI Analysis</h5>
+                    <p class="text-muted">Our system analyzes content using multiple detection algorithms.</p>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4">
+                <div class="step-container">
+                    <div class="step-number mb-3 animate-step" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); animation-delay: 0.4s;">3</div>
+                    <h5 class="fw-bold text-info">Get Results</h5>
+                    <p class="text-muted">Receive detailed analysis with reliability score and recommendations.</p>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4">
+                <div class="step-container">
+                    <div class="step-number mb-3 animate-step" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); animation-delay: 0.6s;">4</div>
+                    <h5 class="fw-bold text-success">Ask TruthBot</h5>
+                    <p class="text-muted">Use our AI assistant to ask follow-up questions about results.</p>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4">
+                <div class="step-container">
+                    <div class="step-number mb-3 animate-step" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); animation-delay: 0.8s;">5</div>
+                    <h5 class="fw-bold text-warning">Make Informed Choice</h5>
+                    <p class="text-muted">Use insights to decide whether to trust and share information.</p>
+                </div>
+            </div>
+        </div>
+        <div class="progress-container mt-4">
+            <div class="progress" style="height: 10px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 5px; overflow: hidden;">
+                <div class="progress-bar progress-animate" role="progressbar" style="width: 100%; background: linear-gradient(90deg, #667eea 0%, #f5576c 33%, #4facfe 66%, #13c276 100%);"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Animated Stats -->
+<div class="row mb-5 text-center">
+    <div class="col-md-3 mb-4">
+        <div class="stat-container animate-stat" style="animation-delay: 0.1s;">
+            <div class="stat-number mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem;">95%</div>
+            <div class="stat-label fw-bold text-primary">Accuracy Rate</div>
+            <div class="stat-bar mt-2" style="width: 95%; height: 6px; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 3px; margin: 0 auto;"></div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="stat-container animate-stat" style="animation-delay: 0.3s;">
+            <div class="stat-number mb-2" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem;">10K+</div>
+            <div class="stat-label fw-bold text-danger">Analyses Completed</div>
+            <div class="stat-bar mt-2" style="width: 90%; height: 6px; background: linear-gradient(90deg, #f093fb, #f5576c); border-radius: 3px; margin: 0 auto;"></div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="stat-container animate-stat" style="animation-delay: 0.5s;">
+            <div class="stat-number mb-2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem;">5K+</div>
+            <div class="stat-label fw-bold text-info">Chatbot Queries</div>
+            <div class="stat-bar mt-2" style="width: 85%; height: 6px; background: linear-gradient(90deg, #4facfe, #00f2fe); border-radius: 3px; margin: 0 auto;"></div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="stat-container animate-stat" style="animation-delay: 0.7s;">
+            <div class="stat-number mb-2" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem;">100%</div>
+            <div class="stat-label fw-bold text-success">Free to Use</div>
+            <div class="stat-bar mt-2" style="width: 100%; height: 6px; background: linear-gradient(90deg, #13c276, #11998e); border-radius: 3px; margin: 0 auto;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Chatbot Demo -->
+<div class="card mb-5 border-0 shadow-lg animate-slide-up" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); animation-delay: 0.3s;">
+    <div class="card-header text-white border-0" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); position: relative; overflow: hidden;">
+        <div class="header-shine" style="position: absolute; top: -10px; left: -100%; width: 100px; height: 200%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 3s infinite;"></div>
+        <h3 class="mb-0"><i class="fas fa-robot me-2"></i> Meet TruthBot</h3>
+    </div>
+    <div class="card-body p-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="chatbot-demo p-4 border rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); box-shadow: inset 0 0 20px rgba(0,0,0,0.05);">
+                    <div class="chat-header d-flex align-items-center mb-3">
+                        <div class="chatbot-avatar text-white rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); animation: avatarPulse 2s infinite;">
+                            <i class="fas fa-robot fa-2x"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h5 class="mb-0 fw-bold text-primary">TruthBot</h5>
+                            <span class="badge" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); animation: badgePulse 2s infinite;">Online</span>
+                        </div>
+                    </div>
+                    <div class="chat-messages mb-3" style="max-height: 250px; overflow-y: auto;">
+                        <div class="message bot-message mb-3 p-3 rounded-3 animate-chat" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); max-width: 85%; animation-delay: 0.2s;">
+                            <p class="mb-0">Hello! I'm TruthBot, your AI assistant for fighting misinformation. How can I help you today?</p>
+                        </div>
+                        <div class="message user-message mb-3 p-3 rounded-3 text-white animate-chat" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); max-width: 85%; margin-left: auto; animation-delay: 0.5s;">
+                            <p class="mb-0">How does TruthGuard detect fake news?</p>
+                        </div>
+                        <div class="message bot-message p-3 rounded-3 animate-chat" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); max-width: 85%; animation-delay: 0.8s;">
+                            <p class="mb-0">TruthGuard uses multiple AI techniques including sentiment analysis, sensationalism detection, credibility scoring, and pattern recognition.</p>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Type your question..." style="border: 2px solid #667eea; border-right: none;">
+                        <button class="btn text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-left: none;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4 class="fw-bold mb-3 text-success animate-pop-in">Interactive Fact-Checking Assistant</h4>
+                <p class="mb-4 text-muted animate-pop-in" style="animation-delay: 0.2s;">TruthBot helps you understand misinformation patterns and get answers to your questions about content credibility.</p>
+                <ul class="list-unstyled">
+                    <li class="mb-3 animate-list-item" style="animation-delay: 0.3s;"><i class="fas fa-check-circle text-success me-2 animate-icon"></i> <span class="fw-bold">Ask questions</span> about claims or articles</li>
+                    <li class="mb-3 animate-list-item" style="animation-delay: 0.4s;"><i class="fas fa-check-circle text-success me-2 animate-icon"></i> <span class="fw-bold">Get explanations</span> about misinformation tactics</li>
+                    <li class="mb-3 animate-list-item" style="animation-delay: 0.5s;"><i class="fas fa-check-circle text-success me-2 animate-icon"></i> <span class="fw-bold">Learn media literacy</span> skills</li>
+                    <li class="mb-3 animate-list-item" style="animation-delay: 0.6s;"><i class="fas fa-check-circle text-success me-2 animate-icon"></i> <span class="fw-bold">Understand analysis</span> results</li>
+                </ul>
+                <button class="btn btn-lg shadow-lg mt-3 animate-button" onclick="openChatbot()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; animation-delay: 0.7s;">
+                    <i class="fas fa-comments me-2"></i> Start Chat with TruthBot
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Debug Tools (Remove after testing) -->
+<div class="mt-4 p-4 rounded-3 animate-slide-up" style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); border: 2px dashed #ffc107; animation-delay: 0.5s;">
+    <h6 class="fw-bold mb-3"><i class="fas fa-bug me-2"></i> Debug Tools</h6>
+    <div class="btn-group gap-2">
+        <button onclick="testChat()" class="btn btn-sm shadow animate-button" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none;">
+            Test Chat
+        </button>
+        <button onclick="debugChat()" class="btn btn-sm shadow animate-button" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; animation-delay: 0.1s;">
+            Debug Console
+        </button>
+        <button onclick="testAPI()" class="btn btn-sm shadow animate-button" style="background: linear-gradient(135deg, #13c276 0%, #11998e 100%); color: white; border: none; animation-delay: 0.2s;">
+            Test API
+        </button>
+        <button onclick="playAllAnimations()" class="btn btn-sm shadow animate-button" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: white; border: none; animation-delay: 0.3s;">
+            Play All Animations
+        </button>
+    </div>
+</div>
+
+<script>
+// Test chat manually
+function testChat() {
+    console.log('Testing chat...');
+    const input = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendChatBtn');
+
+    if (input && sendBtn) {
+        input.value = "Is this working?";
+        sendBtn.click();
+        console.log('Test message sent!');
+    } else {
+        console.error('Chat elements not found');
+        alert('Open chatbot first, then test');
+    }
+}
+
+// Test API directly
+async function testAPI() {
+    console.log('Testing API endpoint...');
+    try {
+        const response = await fetch('/api/chat/test', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: 'Test message'})
+        });
+        const data = await response.json();
+        console.log('API Response:', data);
+        alert('API Test: ' + (data.success ? 'SUCCESS ✓' : 'FAILED ✗'));
+    } catch (error) {
+        console.error('API Test Error:', error);
+        alert('API Test FAILED: ' + error.message);
+    }
+}
+
+// Debug chat
+function debugChat() {
+    console.log('=== CHAT DEBUG ===');
+    console.log('Input:', document.getElementById('chatInput'));
+    console.log('Send button:', document.getElementById('sendChatBtn'));
+    console.log('Container:', document.getElementById('chatContainer'));
+    console.log('Modal:', document.getElementById('chatbotModal'));
+}
+
+// Trigger all animations
+function playAllAnimations() {
+    const animatedElements = document.querySelectorAll('[class*="animate-"]');
+    animatedElements.forEach(el => {
+        el.style.animationPlayState = 'running';
+        el.style.opacity = '1';
+    });
+
+    // Add a visual effect
+    document.body.style.animation = 'colorPulse 0.5s';
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 500);
+}
+
+// Initialize animations on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    // Add scroll listener for animations
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                entry.target.style.opacity = '1';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    document.querySelectorAll('.animate-pop-in, .animate-slide-up, .animate-feature, .animate-stat, .animate-step, .animate-chat, .animate-list-item').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Initialize animated numbers for stats
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(stat => {
+        const finalValue = parseInt(stat.textContent);
+        let startValue = 0;
+        const duration = 2000;
+        const increment = finalValue / (duration / 16); // 60fps
+
+        const updateNumber = () => {
+            startValue += increment;
+            if (startValue < finalValue) {
+                stat.textContent = Math.floor(startValue) + (stat.textContent.includes('%') ? '%' : '+');
+                setTimeout(updateNumber, 16);
+            } else {
+                stat.textContent = finalValue + (stat.textContent.includes('%') ? '%' : '+');
+            }
+        };
+
+        // Start counting when element is in view
+        const statObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                updateNumber();
+                statObserver.unobserve(stat);
+            }
+        });
+
+        statObserver.observe(stat.parentElement);
+    });
+});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Keyframe Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes scrollWheel {
+    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes avatarPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+}
+
+@keyframes badgePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes colorPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.1); }
+}
+
+@keyframes progressFill {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+/* Animation Classes */
+.animate-pop-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.8s ease-out forwards;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-feature {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-stat {
+    opacity: 0;
+    animation: bounceIn 0.8s ease-out forwards;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-step {
+    opacity: 0;
+    animation: rotateIn 0.8s ease-out forwards;
+}
+
+@keyframes rotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(-180deg) scale(0.3);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+.animate-chat {
+    opacity: 0;
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-list-item {
+    opacity: 0;
+    animation: slideInRight 0.5s ease-out forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.animate-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3) !important;
+}
+
+.animate-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.7s;
+}
+
+.animate-button:hover:before {
+    left: 100%;
+}
+
+.animate-icon {
+    animation: iconWiggle 2s infinite;
+}
+
+@keyframes iconWiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+/* Progress bar animation */
+.progress-animate {
+    animation: progressFill 2s ease-out;
+    border-radius: 5px;
+}
+
+/* Enhanced card hover effects */
+.hover-lift {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+}
+
+.hover-lift:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2) !important;
+}
+
+/* Enhanced message hover */
+.message {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.message:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Custom scrollbar */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #f1f1f1 0%, #e1e1e1 100%);
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 500px;
+    }
+
+    .step-container {
+        margin-bottom: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Open chatbot function
+function openChatbot() {
+    console.log('Opening chatbot...');
+    const modalElement = document.getElementById('chatbotModal');
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+        // Add a visual effect when opening
+        modalElement.querySelector('.modal-content').style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            modalElement.querySelector('.modal-content').style.transition = 'transform 0.3s ease-out';
+            modalElement.querySelector('.modal-content').style.transform = 'scale(1)';
+        }, 10);
+    }
+}
+</script>
+{% endblock %}

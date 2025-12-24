@@ -1,0 +1,936 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="container-fluid">
+    <!-- Header with Stats -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h2 fw-bold text-gradient-primary mb-2">
+                        <i class="fas fa-chart-bar me-3"></i>Analysis Management
+                    </h1>
+                    <p class="text-muted">Monitor and manage all user analyses in real-time</p>
+                </div>
+                <div class="text-end">
+                    <div class="stat-badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <span class="stat-number">{{ analyses.total }}</span>
+                        <span class="stat-label">Total Analyses</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card border-0 shadow-lg" style="border-top: 4px solid #28a745;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-2">Reliable</h6>
+                                    <h3 class="mb-0 text-success">{{ analyses.items|selectattr('classification', 'equalto', 'RELIABLE')|list|length }}</h3>
+                                </div>
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                                    <i class="fas fa-check-circle fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-success" style="width: {{ (analyses.items|selectattr('classification', 'equalto', 'RELIABLE')|list|length / analyses.total * 100) if analyses.total > 0 else 0 }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card border-0 shadow-lg" style="border-top: 4px solid #ffc107;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-2">Suspicious</h6>
+                                    <h3 class="mb-0 text-warning">{{ analyses.items|selectattr('classification', 'equalto', 'SUSPICIOUS')|list|length }}</h3>
+                                </div>
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+                                    <i class="fas fa-exclamation-triangle fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-warning" style="width: {{ (analyses.items|selectattr('classification', 'equalto', 'SUSPICIOUS')|list|length / analyses.total * 100) if analyses.total > 0 else 0 }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card border-0 shadow-lg" style="border-top: 4px solid #dc3545;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-2">Fake</h6>
+                                    <h3 class="mb-0 text-danger">{{ analyses.items|selectattr('classification', 'equalto', 'FAKE')|list|length }}</h3>
+                                </div>
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                                    <i class="fas fa-times-circle fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-danger" style="width: {{ (analyses.items|selectattr('classification', 'equalto', 'FAKE')|list|length / analyses.total * 100) if analyses.total > 0 else 0 }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card border-0 shadow-lg" style="border-top: 4px solid #6c757d;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-2">Today's Analysis</h6>
+                                    <h3 class="mb-0 text-secondary">{{ today_count }}</h3>
+                                </div>
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                                    <i class="fas fa-chart-line fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <span class="badge bg-light text-dark">
+                                    <i class="fas fa-arrow-up text-success me-1"></i>
+                                    {{ daily_change }}% from yesterday
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div class="card border-0 shadow-lg mb-4" style="border-radius: 15px;">
+        <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px 15px 0 0;">
+            <h5 class="mb-0"><i class="fas fa-filter me-2"></i> Advanced Filters & Search</h5>
+        </div>
+        <div class="card-body p-4" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+            <form method="GET" class="row g-3">
+                <div class="col-xl-3 col-md-6">
+                    <label class="form-label fw-bold text-primary">
+                        <i class="fas fa-tag me-2"></i>Classification
+                    </label>
+                    <select name="classification" class="form-select shadow-sm">
+                        <option value="">All Classifications</option>
+                        <option value="RELIABLE" {% if request.args.get('classification') == 'RELIABLE' %}selected{% endif %}>
+                            🟢 Reliable
+                        </option>
+                        <option value="SUSPICIOUS" {% if request.args.get('classification') == 'SUSPICIOUS' %}selected{% endif %}>
+                            🟡 Suspicious
+                        </option>
+                        <option value="FAKE" {% if request.args.get('classification') == 'FAKE' %}selected{% endif %}>
+                            🔴 Fake
+                        </option>
+                        <option value="UNKNOWN" {% if request.args.get('classification') == 'UNKNOWN' %}selected{% endif %}>
+                            ⚪ Unknown
+                        </option>
+                    </select>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <label class="form-label fw-bold text-primary">
+                        <i class="fas fa-user me-2"></i>User Filter
+                    </label>
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                        <input type="number" name="user_id" class="form-control"
+                               value="{{ request.args.get('user_id', '') }}"
+                               placeholder="User ID">
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-8">
+                    <label class="form-label fw-bold text-primary">
+                        <i class="fas fa-calendar-alt me-2"></i>Date Range
+                    </label>
+                    <div class="input-group shadow-sm">
+                        <input type="date" name="start_date" class="form-control"
+                               value="{{ request.args.get('start_date', '') }}">
+                        <span class="input-group-text" style="background: #6c757d; color: white;">to</span>
+                        <input type="date" name="end_date" class="form-control"
+                               value="{{ request.args.get('end_date', '') }}">
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100 shadow-lg"
+                            style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; border-radius: 25px;">
+                        <i class="fas fa-search me-2"></i>Search
+                    </button>
+                </div>
+
+                <!-- Advanced Filters Toggle -->
+                <div class="col-12">
+                    <button class="btn btn-link text-decoration-none p-0" type="button" data-bs-toggle="collapse" data-bs-target="#advancedFilters">
+                        <i class="fas fa-sliders-h me-2"></i>Show Advanced Filters
+                    </button>
+                </div>
+
+                <!-- Advanced Filters (Collapsible) -->
+                <div class="col-12 collapse" id="advancedFilters">
+                    <div class="row g-3 mt-3 pt-3 border-top">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-primary">
+                                <i class="fas fa-chart-line me-2"></i>Confidence Score
+                            </label>
+                            <select name="confidence_range" class="form-select shadow-sm">
+                                <option value="">All Scores</option>
+                                <option value="high" {% if request.args.get('confidence_range') == 'high' %}selected{% endif %}>
+                                    High (≥ 70%)
+                                </option>
+                                <option value="medium" {% if request.args.get('confidence_range') == 'medium' %}selected{% endif %}>
+                                    Medium (40-69%)
+                                </option>
+                                <option value="low" {% if request.args.get('confidence_range') == 'low' %}selected{% endif %}>
+                                    Low (< 40%)
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-primary">
+                                <i class="fas fa-shield-alt me-2"></i>Credibility Score
+                            </label>
+                            <input type="number" name="min_credibility" class="form-control shadow-sm"
+                                   placeholder="Min credibility" step="0.1" min="0" max="10"
+                                   value="{{ request.args.get('min_credibility', '') }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-primary">
+                                <i class="fas fa-fire me-2"></i>Sensationalism Score
+                            </label>
+                            <input type="number" name="max_sensationalism" class="form-control shadow-sm"
+                                   placeholder="Max sensationalism" step="0.1" min="0" max="10"
+                                   value="{{ request.args.get('max_sensationalism', '') }}">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Analyses Table -->
+    <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+        <div class="card-header text-white d-flex justify-content-between align-items-center"
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h5 class="mb-0"><i class="fas fa-table me-2"></i> All Analyses</h5>
+            <div class="btn-group">
+                <button class="btn btn-light btn-sm" onclick="exportData('csv')">
+                    <i class="fas fa-file-csv me-2"></i>CSV
+                </button>
+                <button class="btn btn-light btn-sm" onclick="exportData('json')">
+                    <i class="fas fa-file-code me-2"></i>JSON
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="analysesTable">
+                    <thead style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                        <tr>
+                            <th class="text-primary">
+                                <i class="fas fa-hashtag me-2"></i>ID
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-heading me-2"></i>Title
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-user me-2"></i>User
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-tag me-2"></i>Classification
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-chart-line me-2"></i>Confidence
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-shield-alt me-2"></i>Credibility
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-fire me-2"></i>Sensationalism
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-calendar me-2"></i>Created At
+                            </th>
+                            <th class="text-primary">
+                                <i class="fas fa-cogs me-2"></i>Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for analysis in analyses.items %}
+                        <tr class="analysis-row" data-id="{{ analysis.id }}" style="transition: all 0.3s ease;">
+                            <td>
+                                <span class="badge bg-dark" style="background: linear-gradient(135deg, #343a40 0%, #495057 100%);">
+                                    #{{ analysis.id }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="analysis-icon me-2" style="color: #667eea;">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div>
+                                        <a href="{{ url_for('analysis_detail', analysis_id=analysis.id) }}"
+                                           class="text-primary fw-bold text-decoration-none analysis-title">
+                                            {{ analysis.title|truncate(25) }}
+                                        </a>
+                                        {% if analysis.is_quick_analysis %}
+                                        <span class="badge ms-1" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                                            <i class="fas fa-bolt me-1"></i>Quick
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if analysis.author %}
+                                <div class="d-flex align-items-center">
+                                    <div class="user-avatar me-2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                        <i class="fas fa-user text-white"></i>
+                                    </div>
+                                    <div>
+                                        <a href="{{ url_for('admin_users') }}?search={{ analysis.author.email }}"
+                                           class="text-decoration-none">
+                                            <strong class="text-dark">{{ analysis.author.name }}</strong>
+                                            <small class="text-muted d-block">ID: {{ analysis.author.id }}</small>
+                                        </a>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <span class="text-muted">
+                                    <i class="fas fa-user-slash me-2"></i>Deleted User
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge shadow-sm classification-badge"
+                                      style="background: linear-gradient(135deg,
+                                            {% if analysis.classification == 'RELIABLE' %}#28a745 0%, #20c997 100%
+                                            {% elif analysis.classification == 'SUSPICIOUS' %}#ffc107 0%, #fd7e14 100%
+                                            {% elif analysis.classification == 'FAKE' %}#dc3545 0%, #e83e8c 100%
+                                            {% else %}#6c757d 0%, #495057 100%{% endif %});
+                                            color: white; font-weight: 600; min-width: 100px;">
+                                    <i class="fas
+                                        {% if analysis.classification == 'RELIABLE' %}fa-check-circle
+                                        {% elif analysis.classification == 'SUSPICIOUS' %}fa-exclamation-triangle
+                                        {% elif analysis.classification == 'FAKE' %}fa-times-circle
+                                        {% else %}fa-question-circle{% endif %} me-2"></i>
+                                    {{ analysis.classification }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if analysis.confidence_score %}
+                                <div class="confidence-meter">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <small class="text-muted">{{ "%.0f"|format(analysis.confidence_score * 100) }}%</small>
+                                        <small class="text-muted">
+                                            {% if analysis.confidence_score >= 0.7 %}High
+                                            {% elif analysis.confidence_score >= 0.4 %}Medium
+                                            {% else %}Low{% endif %}
+                                        </small>
+                                    </div>
+                                    <div class="progress" style="height: 8px; border-radius: 4px;">
+                                        <div class="progress-bar"
+                                             style="width: {{ analysis.confidence_score * 100 }}%;
+                                                    background: linear-gradient(90deg,
+                                                         {% if analysis.confidence_score >= 0.7 %}#28a745, #20c997
+                                                         {% elif analysis.confidence_score >= 0.4 %}#ffc107, #fd7e14
+                                                         {% else %}#dc3545, #e83e8c{% endif %});">
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <span class="badge bg-secondary">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if analysis.credibility_score %}
+                                <div class="score-circle" data-score="{{ analysis.credibility_score }}">
+                                    <div class="circle-progress"
+                                         style="background: conic-gradient(#17a2b8 {{ analysis.credibility_score * 36 }}deg, #e9ecef 0deg);">
+                                        <div class="circle-inner">
+                                            <span class="score-text">{{ "%.1f"|format(analysis.credibility_score) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <span class="badge bg-secondary">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if analysis.sensationalism_score %}
+                                <div class="heat-indicator" data-heat="{{ analysis.sensationalism_score }}">
+                                    {% for i in range(10) %}
+                                    <div class="heat-bar {% if i < analysis.sensationalism_score %}active{% endif %}"></div>
+                                    {% endfor %}
+                                    <small class="d-block mt-1 text-center text-muted">
+                                        {{ "%.1f"|format(analysis.sensationalism_score) }}
+                                    </small>
+                                </div>
+                                {% else %}
+                                <span class="badge bg-secondary">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="date-time">
+                                    <div class="date">{{ analysis.created_at.strftime('%Y-%m-%d') }}</div>
+                                    <small class="text-muted">{{ analysis.created_at.strftime('%H:%M') }}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('analysis_detail', analysis_id=analysis.id) }}"
+                                       class="btn btn-outline-primary action-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-info action-btn"
+                                            onclick="reanalyze({{ analysis.id }})" title="Re-analyze">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                    {% if current_user.role == 'admin' %}
+                                    <button type="button" class="btn btn-outline-danger action-btn"
+                                            onclick="deleteAnalysis({{ analysis.id }})" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center py-5">
+                                <div class="empty-state">
+                                    <div class="empty-icon mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                        <i class="fas fa-inbox text-white fa-3x"></i>
+                                    </div>
+                                    <h5 class="text-primary">No Analyses Found</h5>
+                                    <p class="text-muted">No analyses match your current filters</p>
+                                    <button class="btn btn-primary mt-2" onclick="clearFilters()">
+                                        <i class="fas fa-times me-2"></i>Clear Filters
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="card-footer" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    Showing {{ analyses.items|length }} of {{ analyses.total }} analyses
+                </div>
+
+                <!-- Pagination -->
+                {% if analyses.pages > 1 %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm mb-0">
+                        {% if analyses.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('admin_analyses', page=analyses.prev_num, **request.args) }}">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for page_num in analyses.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+                            {% if page_num %}
+                                {% if page_num == analyses.page %}
+                                <li class="page-item active">
+                                    <span class="page-link" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
+                                        {{ page_num }}
+                                    </span>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('admin_analyses', page=page_num, **request.args) }}">
+                                        {{ page_num }}
+                                    </a>
+                                </li>
+                                {% endif %}
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if analyses.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('admin_analyses', page=analyses.next_num, **request.args) }}">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: 15px;">
+            <div class="modal-header text-white"
+                 style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%); border-radius: 15px 15px 0 0;">
+                <h5 class="modal-title"><i class="fas fa-trash-alt me-2"></i> Delete Analysis</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <div class="warning-icon mb-3" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
+                        <i class="fas fa-exclamation-triangle fa-3x text-white"></i>
+                    </div>
+                    <h5 class="text-danger">Are you sure?</h5>
+                    <p class="text-muted">This will permanently delete analysis <strong id="deleteAnalysisId"></strong>.</p>
+                    <p class="text-danger small">This action cannot be undone.</p>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary shadow-sm" data-bs-dismiss="modal"
+                        style="border-radius: 20px;">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-danger shadow-lg" id="confirmDelete"
+                        style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%); border: none; border-radius: 20px;">
+                    <i class="fas fa-trash me-2"></i>Delete Analysis
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reanalyze Modal -->
+<div class="modal fade" id="reanalyzeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: 15px;">
+            <div class="modal-header text-white"
+                 style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); border-radius: 15px 15px 0 0;">
+                <h5 class="modal-title"><i class="fas fa-redo-alt me-2"></i> Re-analyze Content</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-muted">This will re-analyze the content with updated AI models. Are you sure?</p>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    The original analysis will be preserved as a historical record.
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="deepAnalysis" checked>
+                    <label class="form-check-label" for="deepAnalysis">
+                        <i class="fas fa-search-plus me-2"></i>Perform deep analysis with additional checks
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary shadow-sm" data-bs-dismiss="modal"
+                        style="border-radius: 20px;">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-info shadow-lg" id="confirmReanalyze"
+                        style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%); border: none; border-radius: 20px;">
+                    <i class="fas fa-redo-alt me-2"></i>Start Re-analysis
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Real-time Update Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert">
+        <div class="toast-header">
+            <strong class="me-auto"><i class="fas fa-sync-alt me-2"></i>Live Updates</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+            <div class="d-flex align-items-center">
+                <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                <span>Fetching latest analyses...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Gradient Text */
+.text-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Statistics Cards */
+.stat-card {
+    transition: all 0.3s ease;
+    border-radius: 15px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-badge {
+    padding: 15px 25px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Analysis Table */
+.analysis-row:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%) !important;
+    transform: translateX(5px);
+}
+
+.action-btn {
+    border-radius: 20px !important;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Score Circles */
+.score-circle {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.circle-progress {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+
+.circle-inner {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-text {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+/* Heat Indicator */
+.heat-indicator {
+    display: flex;
+    gap: 2px;
+    width: 80px;
+}
+
+.heat-bar {
+    flex: 1;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.heat-bar.active {
+    background: linear-gradient(180deg, #ffc107 0%, #fd7e14 100%);
+}
+
+/* Classification Badges */
+.classification-badge {
+    transition: all 0.3s ease;
+}
+
+.classification-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Empty State */
+.empty-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* User Avatar */
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Analysis Icon */
+.analysis-icon {
+    font-size: 1.2rem;
+}
+
+/* Date Time */
+.date-time {
+    line-height: 1.2;
+}
+
+.date {
+    font-weight: 600;
+    color: #495057;
+}
+
+/* Progress Bar Animation */
+.progress-bar {
+    transition: width 1s ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stat-card {
+        margin-bottom: 15px;
+    }
+
+    .analysis-title {
+        font-size: 0.9rem;
+    }
+
+    .action-btn {
+        padding: 0.25rem 0.5rem;
+    }
+}
+</style>
+
+<script>
+let analysisToDelete = null;
+let analysisToReanalyze = null;
+
+// Delete Analysis
+function deleteAnalysis(analysisId) {
+    analysisToDelete = analysisId;
+    document.getElementById('deleteAnalysisId').textContent = analysisId;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+
+// Reanalyze Analysis
+function reanalyze(analysisId) {
+    analysisToReanalyze = analysisId;
+    new bootstrap.Modal(document.getElementById('reanalyzeModal')).show();
+}
+
+// Confirm Delete
+document.getElementById('confirmDelete').addEventListener('click', function() {
+    if (!analysisToDelete) return;
+
+    const deleteBtn = this;
+    const originalText = deleteBtn.innerHTML;
+    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Deleting...';
+    deleteBtn.disabled = true;
+
+    fetch(`/analysis/${analysisToDelete}/delete`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Analysis deleted successfully!', 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showAlert('Error: ' + data.error, 'danger');
+        }
+    })
+    .catch(error => {
+        showAlert('Error deleting analysis', 'danger');
+    })
+    .finally(() => {
+        deleteBtn.innerHTML = originalText;
+        deleteBtn.disabled = false;
+        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+    });
+});
+
+// Confirm Reanalyze
+document.getElementById('confirmReanalyze').addEventListener('click', function() {
+    if (!analysisToReanalyze) return;
+
+    const reanalyzeBtn = this;
+    const originalText = reanalyzeBtn.innerHTML;
+    const deepAnalysis = document.getElementById('deepAnalysis').checked;
+
+    reanalyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
+    reanalyzeBtn.disabled = true;
+
+    fetch(`/analysis/${analysisToReanalyze}/reanalyze`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ deep_analysis: deepAnalysis })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Analysis re-analyzed successfully!', 'success');
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showAlert('Error: ' + data.error, 'danger');
+        }
+    })
+    .catch(error => {
+        showAlert('Error re-analyzing content', 'danger');
+    })
+    .finally(() => {
+        reanalyzeBtn.innerHTML = originalText;
+        reanalyzeBtn.disabled = false;
+        bootstrap.Modal.getInstance(document.getElementById('reanalyzeModal')).hide();
+    });
+});
+
+// Export Data
+function exportData(format) {
+    const params = new URLSearchParams(window.location.search);
+    params.set('export', format);
+
+    showAlert(`Exporting data as ${format.toUpperCase()}...`, 'info');
+    window.location.href = `{{ url_for('admin_analyses') }}?${params.toString()}`;
+}
+
+// Clear Filters
+function clearFilters() {
+    window.location.href = "{{ url_for('admin_analyses') }}";
+}
+
+// Show Alert
+function showAlert(message, type = 'info') {
+    const alertDiv = $(`
+        <div class="alert alert-${type} alert-dismissible fade show position-fixed shadow-lg"
+             style="top: 20px; right: 20px; z-index: 1060; min-width: 300px;">
+            <strong>${type.charAt(0).toUpperCase() + type.slice(1)}:</strong> ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `);
+
+    $('body').append(alertDiv);
+
+    setTimeout(() => {
+        alertDiv.alert('close');
+    }, 3000);
+}
+
+// Real-time Updates
+function checkForUpdates() {
+    fetch(`{{ url_for('admin_analyses') }}?check_updates=1`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.updates_available) {
+            const toast = new bootstrap.Toast(document.getElementById('liveToast'));
+            toast.show();
+        }
+    });
+}
+
+// Auto-refresh every 60 seconds
+setInterval(() => {
+    checkForUpdates();
+}, 60000);
+
+// Initialize tooltips
+$(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip();
+});
+
+// Table sorting
+$('thead th').on('click', function() {
+    const column = $(this).index();
+    const rows = $('tbody tr').get();
+
+    rows.sort(function(a, b) {
+        const aValue = $(a).find('td').eq(column).text();
+        const bValue = $(b).find('td').eq(column).text();
+
+        return aValue.localeCompare(bValue, undefined, { numeric: true });
+    });
+
+    $.each(rows, function(index, row) {
+        $('tbody').append(row);
+    });
+});
+
+// Quick search
+$('#searchUsers').on('input', function() {
+    const searchTerm = $(this).val().toLowerCase();
+    $('tbody tr').each(function() {
+        const text = $(this).text().toLowerCase();
+        $(this).toggle(text.includes(searchTerm));
+    });
+});
+
+// Initialize page
+$(document).ready(function() {
+    // Animate stats on load
+    $('.stat-number').each(function() {
+        const $this = $(this);
+        const target = parseInt($this.text());
+        let count = 0;
+
+        const timer = setInterval(() => {
+            count += Math.ceil(target / 50);
+            if (count >= target) {
+                count = target;
+                clearInterval(timer);
+            }
+            $this.text(count);
+        }, 30);
+    });
+});
+</script>
+{% endblock %}

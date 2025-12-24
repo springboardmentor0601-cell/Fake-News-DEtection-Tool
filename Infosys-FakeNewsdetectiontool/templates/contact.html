@@ -1,0 +1,1355 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - TruthGuard{% endblock %}
+
+{% block content %}
+<!-- Animated Background -->
+<div class="contact-container" style="
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    padding: 20px;
+">
+    <!-- Floating Particles -->
+    <div class="contact-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container py-5">
+        <!-- Hero Header -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="text-center">
+                    <div class="contact-hero-icon mb-4">
+                        <i class="fas fa-headset fa-4x text-white"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold text-white mb-3">
+                        Let's <span class="text-gradient">Connect</span>
+                    </h1>
+                    <p class="lead text-white opacity-75 mb-0" style="max-width: 800px; margin: 0 auto;">
+                        Have questions, ideas, or need support? We're here to help you fight misinformation.
+                        Our team is ready to assist you 24/7!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column - Contact Cards -->
+            <div class="col-lg-4">
+                <!-- Contact Info Card -->
+                <div class="card border-0 shadow-lg mb-4 glass-card" style="border-radius: 20px;">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <div class="contact-icon-wrapper mb-3">
+                                <i class="fas fa-info-circle fa-2x text-white"></i>
+                            </div>
+                            <h3 class="h4 fw-bold text-gradient">Contact Information</h3>
+                            <p class="text-muted">Choose the right channel for your inquiry</p>
+                        </div>
+
+                        <!-- Email Cards -->
+                        <div class="contact-info-item mb-4" style="
+                            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                            border-radius: 15px;
+                            padding: 20px;
+                            color: white;
+                            transition: all 0.3s ease;
+                        " onmouseover="hoverCard(this)" onmouseout="unhoverCard(this)">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="contact-item-icon me-3">
+                                    <i class="fas fa-envelope fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0">General Support</h5>
+                                </div>
+                            </div>
+                            <p class="mb-2">support@truthguard.com</p>
+                            <small class="opacity-75">For all inquiries and assistance</small>
+                        </div>
+
+                        <div class="contact-info-item mb-4" style="
+                            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                            border-radius: 15px;
+                            padding: 20px;
+                            color: white;
+                            transition: all 0.3s ease;
+                        " onmouseover="hoverCard(this)" onmouseout="unhoverCard(this)">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="contact-item-icon me-3">
+                                    <i class="fas fa-handshake fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0">Partnerships</h5>
+                                </div>
+                            </div>
+                            <p class="mb-2">partnerships@truthguard.com</p>
+                            <small class="opacity-75">For organizations and collaborations</small>
+                        </div>
+
+                        <div class="contact-info-item mb-4" style="
+                            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+                            border-radius: 15px;
+                            padding: 20px;
+                            color: white;
+                            transition: all 0.3s ease;
+                        " onmouseover="hoverCard(this)" onmouseout="unhoverCard(this)">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="contact-item-icon me-3">
+                                    <i class="fas fa-newspaper fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0">Media & Press</h5>
+                                </div>
+                            </div>
+                            <p class="mb-2">press@truthguard.com</p>
+                            <small class="opacity-75">For press and media inquiries</small>
+                        </div>
+
+                        <!-- Location Card -->
+                        <div class="contact-location p-4" style="
+                            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                            border-radius: 15px;
+                            color: white;
+                        ">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="location-icon me-3">
+                                    <i class="fas fa-map-marker-alt fa-2x text-warning"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Our Location</h5>
+                                    <small class="opacity-75">Remote & Global</small>
+                                </div>
+                            </div>
+                            <p class="mb-2">
+                                <i class="fas fa-globe-americas me-2 opacity-75"></i>
+                                123 Innovation Drive
+                            </p>
+                            <p class="mb-0">
+                                <i class="fas fa-city me-2 opacity-75"></i>
+                                Tech City, TC 12345
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links Card -->
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 20px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #ff6b6b, #ff9e6d);
+                        color: white;
+                        border-radius: 20px 20px 0 0;
+                    ">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="fas fa-bolt me-2"></i>Quick Access
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="quick-links-grid">
+                            <a href="#" class="quick-link-item">
+                                <div class="quick-link-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Documentation</span>
+                                    <small class="text-muted">User guides & tutorials</small>
+                                </div>
+                            </a>
+
+                            <a href="#" class="quick-link-item">
+                                <div class="quick-link-icon" style="background: linear-gradient(135deg, #06d6a0, #118ab2);">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">API Docs</span>
+                                    <small class="text-muted">Developer resources</small>
+                                </div>
+                            </a>
+
+                            <a href="#" class="quick-link-item">
+                                <div class="quick-link-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                                    <i class="fas fa-question-circle"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Help Center</span>
+                                    <small class="text-muted">Find answers fast</small>
+                                </div>
+                            </a>
+
+                            <a href="#" class="quick-link-item">
+                                <div class="quick-link-icon" style="background: linear-gradient(135deg, #ffd166, #ff9e6d);">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Report Bug</span>
+                                    <small class="text-muted">Found an issue?</small>
+                                </div>
+                            </a>
+
+                            <a href="#" class="quick-link-item">
+                                <div class="quick-link-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Suggest Feature</span>
+                                    <small class="text-muted">Share your ideas</small>
+                                </div>
+                            </a>
+
+                            <a href="#" class="quick-link-item">
+                                <div class="quick-link-icon" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Resources</span>
+                                    <small class="text-muted">Tools & downloads</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Contact Form & FAQ -->
+            <div class="col-lg-8">
+                <!-- Contact Form Card -->
+                <div class="card border-0 shadow-lg mb-4 glass-card" style="border-radius: 20px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #667eea, #764ba2);
+                        color: white;
+                        border-radius: 20px 20px 0 0;
+                    ">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="fas fa-paper-plane me-2"></i>Send Us a Message
+                        </h5>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <form id="contactForm">
+                            <!-- Name & Email Row -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="contactName" class="form-label fw-bold text-gradient">
+                                        <i class="fas fa-user me-2"></i>Full Name
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-gradient-primary text-white border-0">
+                                            <i class="fas fa-signature"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="contactName" required
+                                               style="border-left: 0;" placeholder="Manjuladevi">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contactEmail" class="form-label fw-bold text-gradient">
+                                        <i class="fas fa-envelope me-2"></i>Email Address
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-gradient-info text-white border-0">
+                                            <i class="fas fa-at"></i>
+                                        </span>
+                                        <input type="email" class="form-control" id="contactEmail" required
+                                               style="border-left: 0;" placeholder="manju@example.com">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Subject Selection -->
+                            <div class="mb-4">
+                                <label for="contactSubject" class="form-label fw-bold text-gradient">
+                                    <i class="fas fa-tag me-2"></i>Subject
+                                </label>
+                                <div class="subject-options">
+                                    <div class="row g-2">
+                                        <div class="col-md-3 col-6">
+                                            <input type="radio" name="contactSubject" id="support" value="support" class="btn-check" checked>
+                                            <label for="support" class="btn btn-subject w-100">
+                                                <i class="fas fa-headset me-2"></i>Support
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <input type="radio" name="contactSubject" id="feedback" value="feedback" class="btn-check">
+                                            <label for="feedback" class="btn btn-subject w-100">
+                                                <i class="fas fa-comment-alt me-2"></i>Feedback
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <input type="radio" name="contactSubject" id="partnership" value="partnership" class="btn-check">
+                                            <label for="partnership" class="btn btn-subject w-100">
+                                                <i class="fas fa-handshake me-2"></i>Partnership
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <input type="radio" name="contactSubject" id="other" value="other" class="btn-check">
+                                            <label for="other" class="btn btn-subject w-100">
+                                                <i class="fas fa-ellipsis-h me-2"></i>Other
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Message Textarea -->
+                            <div class="mb-4">
+                                <label for="contactMessage" class="form-label fw-bold text-gradient">
+                                    <i class="fas fa-edit me-2"></i>Your Message
+                                </label>
+                                <div class="message-box-wrapper">
+                                    <div class="textarea-header">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            Please provide detailed information
+                                        </small>
+                                        <div class="char-counter">
+                                            <span id="charCount">0</span>/1000
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control" id="contactMessage" rows="6" required
+                                              placeholder="Tell us how we can help you fight misinformation..."
+                                              maxlength="1000"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Priority & Consent -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold text-gradient">
+                                        <i class="fas fa-exclamation-circle me-2"></i>Priority Level
+                                    </label>
+                                    <div class="priority-select">
+                                        <select class="form-select" style="border-radius: 10px;">
+                                            <option value="normal">Normal Priority</option>
+                                            <option value="high">High Priority</option>
+                                            <option value="urgent">Urgent - Need immediate help</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="consent-check p-3" style="
+                                        background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+                                        border-radius: 10px;
+                                        height: 100%;
+                                    ">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="contactConsent" required>
+                                            <label class="form-check-label small" for="contactConsent">
+                                                I agree to the
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#contactTermsModal"
+                                                   class="text-decoration-none fw-bold text-gradient">
+                                                    terms of communication
+                                                </a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-clock me-1"></i>
+                                        Average response time: <strong>4 hours</strong>
+                                    </small>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-danger me-2" id="contactClear">
+                                        <i class="fas fa-trash me-2"></i>Clear
+                                    </button>
+                                    <button type="submit" class="btn btn-gradient-primary px-4 py-3 fw-bold">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 20px;">
+                    <div class="card-header border-0" style="
+                        background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+                        color: white;
+                        border-radius: 20px 20px 0 0;
+                    ">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="fas fa-question-circle me-2"></i>Frequently Asked Questions
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="accordion" id="contactFAQ">
+                            <!-- FAQ Item 1 -->
+                            <div class="accordion-item border-0 mb-3" style="border-radius: 15px !important;">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#faqContact1"
+                                            style="border-radius: 15px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                        <i class="fas fa-clock text-primary me-3"></i>
+                                        How quickly can I expect a response?
+                                    </button>
+                                </h2>
+                                <div id="faqContact1" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                                    <div class="accordion-body" style="
+                                        background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+                                        border-radius: 0 0 15px 15px;
+                                    ">
+                                        <div class="d-flex">
+                                            <div class="faq-icon me-3">
+                                                <i class="fas fa-bolt text-warning fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">We typically respond within <strong>4 hours</strong> during business days.
+                                                For urgent technical issues, please select "High Priority" in the form above.</p>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Business hours: Mon-Fri, 9 AM - 6 PM EST
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ Item 2 -->
+                            <div class="accordion-item border-0 mb-3" style="border-radius: 15px !important;">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#faqContact2"
+                                            style="border-radius: 15px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                        <i class="fas fa-building text-success me-3"></i>
+                                        Do you offer enterprise solutions?
+                                    </button>
+                                </h2>
+                                <div id="faqContact2" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                                    <div class="accordion-body" style="
+                                        background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+                                        border-radius: 0 0 15px 15px;
+                                    ">
+                                        <div class="d-flex">
+                                            <div class="faq-icon me-3">
+                                                <i class="fas fa-chart-line text-success fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">Yes! We offer custom enterprise solutions for:</p>
+                                                <ul class="mb-0">
+                                                    <li>Media organizations & news outlets</li>
+                                                    <li>Educational institutions</li>
+                                                    <li>Government agencies</li>
+                                                    <li>Corporate misinformation monitoring</li>
+                                                </ul>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <i class="fas fa-lightbulb me-1"></i>
+                                                    Select "Partnership" in the subject options above
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ Item 3 -->
+                            <div class="accordion-item border-0 mb-3" style="border-radius: 15px !important;">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#faqContact3"
+                                            style="border-radius: 15px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                        <i class="fas fa-code-branch text-info me-3"></i>
+                                        Can I contribute to TruthGuard's development?
+                                    </button>
+                                </h2>
+                                <div id="faqContact3" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                                    <div class="accordion-body" style="
+                                        background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+                                        border-radius: 0 0 15px 15px;
+                                    ">
+                                        <div class="d-flex">
+                                            <div class="faq-icon me-3">
+                                                <i class="fas fa-users text-info fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">We welcome contributions from:</p>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-6">
+                                                        <span class="badge bg-primary mb-2">Researchers</span><br>
+                                                        <span class="badge bg-success mb-2">Developers</span><br>
+                                                        <span class="badge bg-warning mb-2">Data Scientists</span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span class="badge bg-danger mb-2">Domain Experts</span><br>
+                                                        <span class="badge bg-info mb-2">Journalists</span><br>
+                                                        <span class="badge bg-dark mb-2">Translators</span>
+                                                    </div>
+                                                </div>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <i class="fas fa-envelope me-1"></i>
+                                                    Email partnerships@truthguard.com with your background
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ Item 4 -->
+                            <div class="accordion-item border-0" style="border-radius: 15px !important;">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#faqContact4"
+                                            style="border-radius: 15px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                                        <i class="fas fa-shield-alt text-warning me-3"></i>
+                                        How do you handle data privacy?
+                                    </button>
+                                </h2>
+                                <div id="faqContact4" class="accordion-collapse collapse" data-bs-parent="#contactFAQ">
+                                    <div class="accordion-body" style="
+                                        background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+                                        border-radius: 0 0 15px 15px;
+                                    ">
+                                        <div class="d-flex">
+                                            <div class="faq-icon me-3">
+                                                <i class="fas fa-lock text-warning fa-lg"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">We take data privacy seriously:</p>
+                                                <ul class="mb-0">
+                                                    <li>End-to-end encryption for all communications</li>
+                                                    <li>GDPR & CCPA compliant</li>
+                                                    <li>No third-party data sharing</li>
+                                                    <li>Regular security audits</li>
+                                                </ul>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <i class="fas fa-file-contract me-1"></i>
+                                                    Read our full privacy policy on the contact terms
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Support -->
+                        <div class="live-support mt-4 p-4" style="
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            border-radius: 15px;
+                            color: white;
+                        ">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold mb-2">
+                                        <i class="fas fa-comments me-2"></i>Need Immediate Help?
+                                    </h6>
+                                    <p class="mb-0 opacity-75">Chat with our AI assistant or schedule a call</p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-light me-2" onclick="location.href='/chat'">
+                                        <i class="fas fa-robot me-1"></i>Chat Now
+                                    </button>
+                                    <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#scheduleModal">
+                                        <i class="fas fa-calendar me-1"></i>Schedule
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card" style="border-radius: 20px;">
+                    <div class="card-body p-4">
+                        <h4 class="text-center fw-bold text-gradient mb-4">
+                            <i class="fas fa-chart-bar me-2"></i>Our Response Stats
+                        </h4>
+                        <div class="row text-center">
+                            <div class="col-md-3 mb-3">
+                                <div class="stat-number display-6 fw-bold text-primary">4h</div>
+                                <div class="stat-label">Average Response</div>
+                                <small class="text-muted">Quick help when you need it</small>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="stat-number display-6 fw-bold text-success">98%</div>
+                                <div class="stat-label">Satisfaction Rate</div>
+                                <small class="text-muted">Happy customers worldwide</small>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="stat-number display-6 fw-bold text-warning">24/7</div>
+                                <div class="stat-label">AI Support</div>
+                                <small class="text-muted">Always available assistant</small>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="stat-number display-6 fw-bold text-danger">10k+</div>
+                                <div class="stat-label">Queries Solved</div>
+                                <small class="text-muted">Successfully helped users</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Terms Modal -->
+<div class="modal fade" id="contactTermsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
+            <div class="modal-header border-0" style="
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                color: white;
+                border-radius: 25px 25px 0 0;
+            ">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-file-contract me-2"></i>Communication Terms
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="terms-content">
+                    <div class="term-section mb-4">
+                        <h6 class="fw-bold text-gradient">
+                            <i class="fas fa-bullseye me-2"></i>1. Purpose of Communication
+                        </h6>
+                        <p>By contacting TruthGuard, you agree that your communication may be used to improve our services,
+                           provide you with support, and help combat misinformation globally.</p>
+                    </div>
+
+                    <div class="term-section mb-4">
+                        <h6 class="fw-bold text-gradient">
+                            <i class="fas fa-clock me-2"></i>2. Response Time Commitment
+                        </h6>
+                        <p>We strive to respond to all inquiries within 4 hours during business days
+                           (Monday-Friday, 9 AM - 6 PM EST). Urgent requests receive priority attention.</p>
+                    </div>
+
+                    <div class="term-section mb-4">
+                        <h6 class="fw-bold text-gradient">
+                            <i class="fas fa-lock me-2"></i>3. Privacy & Data Protection
+                        </h6>
+                        <p>Your contact information will only be used to respond to your inquiry and will never
+                           be shared with third parties. All communications are encrypted and secured.</p>
+                    </div>
+
+                    <div class="term-section mb-4">
+                        <h6 class="fw-bold text-gradient">
+                            <i class="fas fa-comment-alt me-2"></i>4. Content Guidelines
+                        </h6>
+                        <p>Please ensure your messages are respectful and relevant to TruthGuard's mission of
+                           combating misinformation. We reserve the right to refuse service for inappropriate content.</p>
+                    </div>
+
+                    <div class="term-section">
+                        <h6 class="fw-bold text-gradient">
+                            <i class="fas fa-database me-2"></i>5. Data Usage
+                        </h6>
+                        <p>Anonymous, aggregated data from communications may be used to improve our AI models
+                           and detection algorithms, always respecting your privacy.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-gradient-primary" onclick="acceptTerms()">
+                    <i class="fas fa-check me-2"></i>I Accept Terms
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schedule Call Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
+            <div class="modal-header border-0" style="
+                background: linear-gradient(90deg, #11998e, #38ef7d);
+                color: white;
+                border-radius: 25px 25px 0 0;
+            ">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-calendar me-2"></i>Schedule a Call
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <div class="schedule-icon mb-3">
+                        <i class="fas fa-video fa-3x text-success"></i>
+                    </div>
+                    <p>Schedule a 30-minute consultation call with our experts</p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Preferred Date & Time</label>
+                    <input type="datetime-local" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Meeting Type</label>
+                    <select class="form-select">
+                        <option>Video Call (Zoom/Meet)</option>
+                        <option>Phone Call</option>
+                        <option>Live Chat</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Topics to Discuss</label>
+                    <textarea class="form-control" rows="3"
+                              placeholder="What would you like to discuss?"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-gradient-success">
+                    <i class="fas fa-calendar-check me-2"></i>Schedule Call
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: gradientBG 8s ease infinite;
+}
+
+.btn-gradient-primary {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-gradient-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.btn-gradient-success {
+    background: linear-gradient(90deg, #06d6a0, #118ab2);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.contact-particles .particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.contact-particles .particle:nth-child(1) {
+    width: 100px; height: 100px;
+    top: 10%; left: 5%;
+    animation-delay: 0s;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.contact-particles .particle:nth-child(2) {
+    width: 150px; height: 150px;
+    bottom: 20%; right: 10%;
+    animation-delay: 2s;
+    background: rgba(6, 214, 160, 0.1);
+}
+
+.contact-particles .particle:nth-child(3) {
+    width: 80px; height: 80px;
+    top: 60%; left: 20%;
+    animation-delay: 4s;
+    background: rgba(255, 209, 102, 0.1);
+}
+
+.contact-particles .particle:nth-child(4) {
+    width: 120px; height: 120px;
+    top: 30%; right: 20%;
+    animation-delay: 1s;
+    background: rgba(118, 75, 162, 0.1);
+}
+
+.contact-particles .particle:nth-child(5) {
+    width: 90px; height: 90px;
+    bottom: 10%; left: 15%;
+    animation-delay: 3s;
+    background: rgba(17, 138, 178, 0.1);
+}
+
+.contact-hero-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.contact-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.contact-item-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.quick-link-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.quick-link-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: #667eea;
+    background: white;
+}
+
+.quick-link-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    color: white;
+}
+
+.btn-subject {
+    height: 100px;
+    border: 2px solid #dee2e6;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-check:checked + .btn-subject {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+    transform: scale(1.05);
+}
+
+.btn-subject:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+}
+
+.message-box-wrapper {
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.textarea-header {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.char-counter {
+    background: #e9ecef;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+#contactMessage {
+    border: none;
+    border-radius: 0;
+    resize: none;
+}
+
+#contactMessage:focus {
+    box-shadow: none;
+}
+
+.priority-select .form-select {
+    border-radius: 10px;
+    border: 2px solid #dee2e6;
+    padding: 10px;
+}
+
+.priority-select .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+.faq-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #667eea;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.accordion-button:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.schedule-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #06d6a0, #118ab2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.location-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 193, 7, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quick-links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-subject {
+        height: 80px;
+        font-size: 0.9rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .contact-hero-icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+/* Form Validation Styling */
+.is-invalid {
+    border-color: #ff6b6b !important;
+}
+
+.is-valid {
+    border-color: #06d6a0 !important;
+}
+
+/* Loading Animation */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Character counter for message textarea
+    $('#contactMessage').on('input', function() {
+        const charCount = $(this).val().length;
+        $('#charCount').text(charCount);
+
+        if (charCount > 900) {
+            $('#charCount').css('color', '#ff6b6b');
+        } else if (charCount > 500) {
+            $('#charCount').css('color', '#ffd166');
+        } else {
+            $('#charCount').css('color', '#06d6a0');
+        }
+    });
+
+    // Contact form submission with animation
+    $('#contactForm').on('submit', function(e) {
+        e.preventDefault();
+
+        // Validate form
+        if (!validateContactForm()) {
+            return;
+        }
+
+        const submitBtn = $(this).find('button[type="submit"]');
+        const originalText = submitBtn.html();
+
+        // Disable button and show loading
+        submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Sending...');
+
+        // Add loading animation to form
+        $(this).addClass('loading');
+
+        // Simulate API call with animation
+        setTimeout(() => {
+            // Show success animation
+            const formData = {
+                name: $('#contactName').val(),
+                email: $('#contactEmail').val(),
+                subject: $('input[name="contactSubject"]:checked').val(),
+                message: $('#contactMessage').val()
+            };
+
+            // Save to localStorage (simulating submission)
+            const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+            submissions.push({
+                ...formData,
+                timestamp: new Date().toISOString(),
+                status: 'sent'
+            });
+            localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+
+            // Show success message with confetti
+            showContactSuccess(formData);
+
+            // Reset form
+            $('#contactForm')[0].reset();
+            $('#charCount').text('0').css('color', '#06d6a0');
+
+            // Reset button
+            submitBtn.prop('disabled', false).html(originalText);
+            $(this).removeClass('loading');
+
+        }, 2000);
+    });
+
+    // Clear form with confirmation
+    $('#contactClear').click(function() {
+        if (confirm('Are you sure you want to clear the form? All entered data will be lost.')) {
+            $('#contactForm')[0].reset();
+            $('#charCount').text('0').css('color', '#06d6a0');
+            $('.btn-subject').removeClass('active');
+            $('input[name="contactSubject"]').prop('checked', false);
+            $('#support').prop('checked', true);
+            $('#support + .btn-subject').addClass('active');
+        }
+    });
+
+    // Subject button styling
+    $('.btn-subject').click(function() {
+        $('.btn-subject').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    // Initialize with support selected
+    $('#support + .btn-subject').addClass('active');
+
+    // Form validation
+    function validateContactForm() {
+        let isValid = true;
+
+        // Validate name
+        const name = $('#contactName').val().trim();
+        if (name.length < 2) {
+            showAlert('Please enter your full name', 'warning');
+            $('#contactName').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#contactName').removeClass('is-invalid').addClass('is-valid');
+        }
+
+        // Validate email
+        const email = $('#contactEmail').val().trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showAlert('Please enter a valid email address', 'warning');
+            $('#contactEmail').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#contactEmail').removeClass('is-invalid').addClass('is-valid');
+        }
+
+        // Validate message
+        const message = $('#contactMessage').val().trim();
+        if (message.length < 10) {
+            showAlert('Please enter a message (minimum 10 characters)', 'warning');
+            $('#contactMessage').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#contactMessage').removeClass('is-invalid').addClass('is-valid');
+        }
+
+        // Validate consent
+        if (!$('#contactConsent').is(':checked')) {
+            showAlert('Please agree to the terms of communication', 'warning');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Contact success animation
+    function showContactSuccess(formData) {
+        // Create success modal
+        const successModal = `
+            <div class="modal fade" id="successModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
+                        <div class="modal-header border-0" style="
+                            background: linear-gradient(90deg, #06d6a0, #118ab2);
+                            color: white;
+                            border-radius: 25px 25px 0 0;
+                        ">
+                            <h5 class="modal-title fw-bold">
+                                <i class="fas fa-check-circle me-2"></i>Message Sent Successfully!
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-4 text-center">
+                            <div class="success-icon mb-3">
+                                <i class="fas fa-paper-plane fa-4x text-success"></i>
+                            </div>
+                            <h4 class="fw-bold mb-3">Thank You, ${formData.name}!</h4>
+                            <p>Your message has been sent successfully. We'll get back to you within 4 hours.</p>
+                            <div class="confirmation-details p-3 mb-3" style="
+                                background: #f8f9fa;
+                                border-radius: 10px;
+                                text-align: left;
+                            ">
+                                <small class="d-block">
+                                    <strong>Subject:</strong> ${formData.subject.toUpperCase()}
+                                </small>
+                                <small class="d-block mt-1">
+                                    <strong>Reference:</strong> #${Date.now().toString().slice(-6)}
+                                </small>
+                                <small class="d-block mt-1">
+                                    <strong>Time:</strong> ${new Date().toLocaleTimeString()}
+                                </small>
+                            </div>
+                            <p class="text-muted small mb-0">
+                                <i class="fas fa-info-circle me-1"></i>
+                                A confirmation email has been sent to ${formData.email}
+                            </p>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-gradient-primary" data-bs-dismiss="modal">
+                                <i class="fas fa-check me-2"></i>Got it!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add modal to page
+        $('body').append(successModal);
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('successModal'));
+        modal.show();
+
+        // Remove modal after hiding
+        $('#successModal').on('hidden.bs.modal', function () {
+            $(this).remove();
+        });
+
+        // Create confetti effect
+        createConfetti();
+    }
+
+    // Confetti animation
+    function createConfetti() {
+        const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#ff6b6b', '#ffd166', '#06d6a0', '#118ab2'];
+
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.borderRadius = '50%';
+            confetti.style.top = '0';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.opacity = '0.8';
+            confetti.style.zIndex = '9999';
+            confetti.style.pointerEvents = 'none';
+            document.body.appendChild(confetti);
+
+            // Animate
+            const animation = confetti.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: 2000 + Math.random() * 1000,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+
+            animation.onfinish = () => confetti.remove();
+        }
+    }
+
+    // Accept terms function
+    window.acceptTerms = function() {
+        $('#contactConsent').prop('checked', true);
+        showAlert('Terms accepted successfully!', 'success');
+        $('#contactTermsModal').modal('hide');
+    };
+
+    // Card hover effect
+    window.hoverCard = function(element) {
+        element.style.transform = 'translateY(-5px)';
+        element.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
+    };
+
+    window.unhoverCard = function(element) {
+        element.style.transform = 'translateY(0)';
+        element.style.boxShadow = 'none';
+    };
+
+    // Custom alert function
+    function showAlert(message, type) {
+        const alertClass = type === 'success' ? 'alert-success' :
+                          type === 'warning' ? 'alert-warning' :
+                          type === 'danger' ? 'alert-danger' : 'alert-info';
+
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg"
+                 style="z-index: 9999; min-width: 300px; border-radius: 15px;" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' :
+                                  type === 'warning' ? 'fa-exclamation-triangle' :
+                                  type === 'danger' ? 'fa-exclamation-circle' : 'fa-info-circle'} me-2"></i>
+                    <div>${message}</div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+
+        $('body').append(alertHtml);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            $('.alert').alert('close');
+        }, 5000);
+    }
+
+    // Initialize tooltips
+    $('[data-bs-toggle="tooltip"]').tooltip();
+});
+</script>
+{% endblock %}
